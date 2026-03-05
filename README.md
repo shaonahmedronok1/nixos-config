@@ -1,12 +1,20 @@
-# nixos-config
+<div align="center">
 
-My personal NixOS configuration — River WM on a single declarative system.
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffb7c5,100:c2185b&height=180&section=header&text=nixos-config&fontSize=36&fontColor=fff&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20River%20WM%20%C2%B7%20Wayland&descAlignY=58&descColor=ffe0ec"/>
 
-Live at [shaon.neocities.org](https://shaon.neocities.org)
+[![Website](https://img.shields.io/badge/🌸%20shaon.neocities.org-c2185b?style=for-the-badge)](https://shaon.neocities.org)
+[![NixOS](https://img.shields.io/badge/NixOS-25.11-%235277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
+[![River](https://img.shields.io/badge/River-WM-c2185b?style=for-the-badge&logo=wayland&logoColor=white)](https://isaacfreund.com/software/river/)
+
+*Everything declared. Nothing manual. Reproducible from scratch with one rebuild.*
+
+</div>
 
 ---
 
-## System
+<div align="center">
+
+## 🌸 System
 
 | | |
 |---|---|
@@ -23,23 +31,23 @@ Live at [shaon.neocities.org](https://shaon.neocities.org)
 
 ---
 
-## Structure
+## 🌺 Structure
 ```
 nixos-config/
-├── configuration.nix       ← entire system declaration
-└── hardware-configuration.nix  ← machine-specific hardware
+├── configuration.nix          ← entire system declaration
+└── hardware-configuration.nix ← machine-specific hardware
 ```
 
 ---
 
-## Apply
+## 🌸 Apply
 ```bash
 sudo nixos-rebuild switch
 ```
 
 ---
 
-## Design Principles
+## 🌺 Design Principles
 
 - Everything declared. Nothing manual.
 - Reproducible from scratch with one rebuild.
@@ -54,8 +62,8 @@ MIT — use freely.
 
 ---
 
-## Author
+*"The burden of proof lies with the addition."*
 
-**Shaon Ahmed Ronok**
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:c2185b,100:ffb7c5&height=120&section=footer"/>
 
-[shaon.neocities.org](https://shaon.neocities.org) · [github.com/shaonahmedronok1](https://github.com/shaonahmedronok1)
+</div>
