@@ -195,9 +195,10 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  
+
   boot.kernelModules = [ "i2c-dev" ];
   hardware.graphics.enable = true;
+  hardware.cpu.intel.updateMicrocode = true;
   security.polkit.enable = true;
   services.greetd = {
     enable = true;
@@ -206,11 +207,15 @@
       user = "az";
     };
   };
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
+
+services.pipewire = {
+  enable = true;
+  alsa.enable = true;
+  alsa.support32Bit = true;
+  pulse.enable = true;
+  jack.enable = true;
 };
+
 nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
 hardware.i2c.enable = true;
