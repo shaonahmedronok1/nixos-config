@@ -81,9 +81,18 @@
      wl-clipboard
      xdg-terminal-exec
      ghostty
-  waybar
-  swaybg
-  kdePackages.dolphin
+     waybar
+     wiremix
+     wlsunset
+     cliphist
+     wtype
+     wl-clip-persist
+     wl-clipboard
+     wlr-randr
+     swayidle
+     swaylock
+     swaybg
+     kdePackages.dolphin
   swaylock
   mako
   slurp
@@ -195,7 +204,7 @@
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-
+  
   boot.kernelModules = [ "i2c-dev" ];
   hardware.graphics.enable = true;
   hardware.cpu.intel.updateMicrocode = true;
@@ -207,7 +216,7 @@
       user = "az";
     };
   };
-
+  
 services.pipewire = {
   enable = true;
   alsa.enable = true;
@@ -251,7 +260,7 @@ fonts.packages = with pkgs; [
   font-awesome
 ];
 
-
+security.pam.services.swaylock = {};
 
 
 
