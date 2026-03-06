@@ -1,10 +1,11 @@
 <div align="center">
-
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffb7c5,100:c2185b&height=180&section=header&text=nixos-config&fontSize=36&fontColor=fff&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20River%20WM%20%C2%B7%20Wayland&descAlignY=58&descColor=ffe0ec"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffb7c5,100:c2185b&height=180&section=header&text=nixos-config&fontSize=36&fontColor=fff&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20Flakes%20%C2%B7%20Home%20Manager%20%C2%B7%20River%20WM%20%C2%B7%20Wayland&descAlignY=58&descColor=ffe0ec"/>
 
 [![Website](https://img.shields.io/badge/🌸%20shaon.neocities.org-c2185b?style=for-the-badge)](https://shaon.neocities.org)
 [![NixOS](https://img.shields.io/badge/NixOS-25.11-%235277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
 [![River](https://img.shields.io/badge/River-WM-c2185b?style=for-the-badge&logo=wayland&logoColor=white)](https://isaacfreund.com/software/river/)
+[![Flakes](https://img.shields.io/badge/Flakes-Enabled-5277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.wiki/wiki/Flakes)
+[![Home Manager](https://img.shields.io/badge/Home_Manager-25.11-c2185b?style=for-the-badge)](https://nix-community.github.io/home-manager/)
 
 *Everything declared. Nothing manual. Reproducible from scratch with one rebuild.*
 
@@ -27,22 +28,50 @@
 | **Launcher** | Fuzzel |
 | **Bar** | Waybar |
 | **Notifications** | Mako |
+| **Clipboard** | cliphist + wl-clipboard |
+| **Screen Lock** | Swaylock |
+| **Idle Daemon** | Swayidle |
+| **Warm Light** | Wlsunset |
 | **Hardware** | Intel i5-6500 · 8GB RAM · 119GB NVMe |
 
 ---
 
 ## 🌺 Structure
+
 ```
 nixos-config/
-├── configuration.nix          ← entire system declaration
-└── hardware-configuration.nix ← machine-specific hardware
+├── flake.nix                  ← entry point, versions pinned
+├── flake.lock                 ← exact version snapshot, never touch
+├── configuration.nix          ← system-level declaration
+├── home.nix                   ← Home Manager user config, all dotfiles
+└── hardware-configuration.nix ← machine-specific, regenerate fresh on new PC
 ```
 
 ---
 
 ## 🌸 Apply
+
+**First time on a new machine:**
 ```bash
-sudo nixos-rebuild switch
+git clone https://github.com/shaonahmedronok1/nixos-config
+sudo cp nixos-config/flake.nix /etc/nixos/
+sudo cp nixos-config/flake.lock /etc/nixos/
+sudo cp nixos-config/configuration.nix /etc/nixos/
+sudo cp nixos-config/home.nix /etc/nixos/
+# generate fresh hardware-configuration.nix — never copy this one
+sudo nixos-generate-config
+sudo nixos-rebuild switch --flake /etc/nixos#nixos
+```
+
+**Daily use — after editing any config:**
+```bash
+sudo nixos-rebuild switch --flake /etc/nixos#nixos
+```
+
+**Monthly update:**
+```bash
+sudo nix flake update /etc/nixos
+sudo nixos-rebuild switch --flake /etc/nixos#nixos
 ```
 
 ---
@@ -52,7 +81,11 @@ sudo nixos-rebuild switch
 - Everything declared. Nothing manual.
 - Reproducible from scratch with one rebuild.
 - Minimal — nothing installed without a reason.
-- No home-manager yet. Keeping it simple.
+- Flakes for version pinning — exact reproducibility guaranteed.
+- Home Manager as NixOS module — all dotfiles declared in `home.nix`.
+- `~/.config` is entirely symlinks to `/nix/store/` — never edited directly.
+- `hardware-configuration.nix` is machine-specific — always regenerate fresh.
+- `flake.lock` is committed — guarantees identical rebuild anywhere, anytime.
 
 ---
 
