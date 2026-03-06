@@ -116,6 +116,8 @@ programs.swaylock = {
 };
 
 
+
+
 home.file.".config/river/init" = {
   executable = true;
   text = ''
@@ -140,12 +142,11 @@ home.file.".config/river/init" = {
 
     # ===== AUTOSTART =====
     riverctl spawn "mako"
-    riverctl spawn "~/.config/river/wallpaper-loader.sh"
+    riverctl spawn "$HOME/.config/river/wallpaper-loader.sh"
     riverctl spawn "udiskie -t"
     riverctl spawn "waybar"
     riverctl spawn "flameshot"
     riverctl spawn "swayidle -w timeout 300 'swaylock -f' timeout 600 'systemctl suspend' before-sleep 'swaylock -f'"
-    riverctl spawn "flameshot"
     riverctl spawn "wl-clip-persist --clipboard regular"
 
     # ===== KEYBOARD =====
@@ -194,6 +195,11 @@ home.file.".config/river/init" = {
       riverctl map normal Super $i set-focused-tags $tags
       riverctl map normal Super+Shift $i set-view-tags $tags
     done
+    riverctl map normal Super+Control $i toggle-focused-tags $tags
+    riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
+
+    riverctl map normal Super Tab focus-previous-tags
+
 
     # Audio
     riverctl map normal None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"
@@ -205,11 +211,11 @@ home.file.".config/river/init" = {
     riverctl map normal Super Page_Down spawn "ddcutil setvcp 10 - 15"
 
     # Screenshots
-    riverctl map normal Super Z spawn "~/.local/bin/screenshot-capture-wayland.sh"
-    riverctl map normal Super+Shift Z spawn "~/.local/bin/screenshot-capture-wayland.sh"
+    riverctl map normal Super Z spawn "$HOME/.local/bin/screenshot-capture-wayland.sh"
+    riverctl map normal Super+Shift Z spawn "$HOME/.local/bin/screenshot-capture-wayland.sh"
 
     # Wallpaper
-    riverctl map normal Super W spawn "~/.config/river/cycle-wallpaper.sh"
+    riverctl map normal Super W spawn "$HOME/.config/river/cycle-wallpaper.sh"
 
     # File manager
     riverctl map normal Super E spawn nautilus
@@ -247,6 +253,8 @@ home.file.".config/river/init" = {
     riverctl border-color-focused 0xCF1358
     riverctl border-color-unfocused 0x4A0030
     riverctl xcursor-theme Adwaita 24
+    riverctl focus-follows-cursor normal
+    riverctl default-attach-mode bottom
 
     # ===== Monitor's REfresh rate =====
     riverctl spawn "wlr-randr --output HDMI-A-2 --mode 1280x1024@75.004997"
@@ -262,6 +270,11 @@ home.file.".config/river/init" = {
     rivertile -view-padding 5 -outer-padding 4 &
   '';
 };
+
+
+
+
+
 
 
 home.file.".config/waybar/config.jsonc" = {
@@ -635,6 +648,55 @@ home.file.".local/bin/screenshot-capture-wayland.sh" = {
     fi
   '';
 };
+
+
+
+home.file.".config/yazi/yazi.toml" = {
+  text = ''
+    [mgr]
+    show_hidden = true
+
+    [[opener.browser]]
+    run = 'firefox "$@"'
+    orphan = true
+    desc = "Open in Firefox"
+    for = "unix"
+
+    [[open.prepend_rules]]
+    mime = "text/html"
+    use = "browser"
+
+    [[open.prepend_rules]]
+    mime = "application/xhtml+xml"
+    use = "browser"
+
+
+
+    [opener]
+    edit = [
+        { run = 'nvim "$@"', block = true, for = "unix" },
+    ]
+    open = [
+        { run = 'xdg-open "$@"', desc = "Open", for = "unix" },
+    ]
+    image = [
+        { run = 'imv "$@"', orphan = true, for = "unix" },
+    ]
+    play_audio = [
+        { run = 'killall -q mpv; mpv --force-window --no-resume-playback "$@"', desc = "Play Audio" }
+    ]
+    [open]
+    rules = [
+        { mime = "audio/*", use = "play_audio" },
+        { mime = "image/*", use = "image" },
+        { mime = "text/*", use = "edit" },
+        { mime = "video/*", use = [ "open" ] },
+    ]
+  '';
+};
+
+
+
 
 
 
