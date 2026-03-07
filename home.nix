@@ -48,6 +48,178 @@ programs.git = {
 };
 
 
+
+
+
+
+
+wayland.windowManager.hyprland = {
+  enable = true;
+  systemd.enable = true;
+
+  settings = {
+    "$mod" = "SUPER";
+
+    monitor = ",preferred,auto,1";
+
+    env = [
+      "NIXOS_OZONE_WL,1"
+      "XDG_CURRENT_DESKTOP,Hyprland"
+      "XDG_SESSION_TYPE,wayland"
+      "XDG_SESSION_DESKTOP,Hyprland"
+      "QT_QPA_PLATFORM,wayland"
+      "QT_WAYLAND_DISABLE_WINDOWDECORATION,1"
+    ];
+
+    exec-once = [
+      "waybar"
+      "mako"
+      "udiskie -t"
+      "wlsunset -l 22.84 -L 89.54 -t 4500 -T 6500"
+      "wl-paste --watch cliphist store"
+      "wl-clip-persist --clipboard regular"
+      "swayidle -w timeout 300 'swaylock -f' timeout 600 'systemctl suspend' before-sleep 'swaylock -f'"
+      "wlr-randr --output HDMI-A-2 --mode 1280x1024@75.004997"
+      "swww-daemon"
+    ];
+
+    general = {
+      gaps_in = 5;
+      gaps_out = 10;
+      border_size = 4;
+      "col.active_border" = "rgba(CF1358ff)";
+      "col.inactive_border" = "rgba(4A0030ff)";
+      layout = "dwindle";
+    };
+
+    decoration = {
+      rounding = 8;
+      blur = {
+        enabled = true;
+        size = 3;
+        passes = 1;
+      };
+    };
+
+    input = {
+      kb_layout = "us";
+      follow_mouse = 1;
+      repeat_rate = 50;
+      repeat_delay = 300;
+      touchpad.natural_scroll = false;
+    };
+
+    dwindle = {
+      pseudotile = true;
+      preserve_split = true;
+    };
+
+    bind = [
+      # Terminal
+      "$mod, Return, exec, alacritty"
+      "$mod, grave, exec, alacritty"
+
+      # Apps
+      "$mod, Space, exec, fuzzel"
+      "$mod, B, exec, chromium"
+      "$mod, E, exec, nautilus"
+
+      # Window management
+      "$mod, C, killactive"
+      "$mod SHIFT, E, exit"
+      "$mod, F, fullscreen"
+      "$mod SHIFT, Space, togglefloating"
+
+      # Clipboard
+      "$mod, V, exec, cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"
+
+      # Lock
+      "$mod SHIFT, X, exec, swaylock -f"
+      "$mod SHIFT, L, exec, swaylock -f -c 1a1a2e"
+
+      # Notifications
+      "$mod, N, exec, makoctl dismiss"
+      "$mod SHIFT, N, exec, makoctl dismiss --all"
+
+      # Screenshot
+      "$mod, Z, exec, bash ~/.local/bin/screenshot-capture-wayland.sh region"
+      "$mod SHIFT, Z, exec, bash ~/.local/bin/screenshot-capture-wayland.sh"
+
+      # Wallpaper
+      "$mod, W, exec, bash ~/.config/river/cycle-wallpaper.sh"
+
+      # Focus
+      "$mod, H, movefocus, l"
+      "$mod, J, movefocus, d"
+      "$mod, K, movefocus, u"
+      "$mod, L, movefocus, r"
+      "$mod, left, movefocus, l"
+      "$mod, down, movefocus, d"
+      "$mod, up, movefocus, u"
+      "$mod, right, movefocus, r"
+
+      # Move windows
+      "$mod SHIFT, H, movewindow, l"
+      "$mod SHIFT, J, movewindow, d"
+      "$mod SHIFT, K, movewindow, u"
+      "$mod SHIFT, L, movewindow, r"
+      "$mod SHIFT, left, movewindow, l"
+      "$mod SHIFT, down, movewindow, d"
+      "$mod SHIFT, up, movewindow, u"
+      "$mod SHIFT, right, movewindow, r"
+
+      # Workspaces
+      "$mod, 1, workspace, 1"
+      "$mod, 2, workspace, 2"
+      "$mod, 3, workspace, 3"
+      "$mod, 4, workspace, 4"
+      "$mod, 5, workspace, 5"
+      "$mod, 6, workspace, 6"
+      "$mod, 7, workspace, 7"
+      "$mod, 8, workspace, 8"
+      "$mod, 9, workspace, 9"
+
+      # Move to workspace
+      "$mod SHIFT, 1, movetoworkspace, 1"
+      "$mod SHIFT, 2, movetoworkspace, 2"
+      "$mod SHIFT, 3, movetoworkspace, 3"
+      "$mod SHIFT, 4, movetoworkspace, 4"
+      "$mod SHIFT, 5, movetoworkspace, 5"
+      "$mod SHIFT, 6, movetoworkspace, 6"
+      "$mod SHIFT, 7, movetoworkspace, 7"
+      "$mod SHIFT, 8, movetoworkspace, 8"
+      "$mod SHIFT, 9, movetoworkspace, 9"
+
+      # Move to next/prev monitor
+      "$mod SHIFT, period, movewindow, mon+1"
+      "$mod SHIFT, comma, movewindow, mon-1"
+
+      # Volume
+      ", XF86AudioMute, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
+      ", XF86AudioLowerVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ -11%"
+      ", XF86AudioRaiseVolume, exec, pactl set-sink-volume @DEFAULT_SINK@ +11%"
+      "$mod, F1, exec, pactl set-sink-mute @DEFAULT_SINK@ toggle"
+      "$mod, F2, exec, pactl set-sink-volume @DEFAULT_SINK@ -5%"
+      "$mod, F3, exec, pactl set-sink-volume @DEFAULT_SINK@ +5%"
+
+      # Brightness
+      "$mod, Page_Up, exec, ddcutil setvcp 10 + 15"
+      "$mod, Page_Down, exec, ddcutil setvcp 10 - 15"
+    ];
+
+    bindm = [
+      "$mod, mouse:272, movewindow"
+      "$mod, mouse:273, resizewindow"
+    ];
+  };
+};
+
+
+
+
+
+
+
 programs.alacritty = {
   enable = true;
   settings = {
@@ -119,158 +291,6 @@ programs.swaylock = {
 
 
 
-home.file.".config/river/init" = {
-  executable = true;
-  text = ''
-    #!/bin/sh
-
-    # ===== ENVIRONMENT =====
-    export XDG_CURRENT_DESKTOP=river
-    export XDG_SESSION_TYPE=wayland
-    export QT_QPA_PLATFORM=wayland
-    export MOZ_ENABLE_WAYLAND=1
-
-    # ===== DBUS =====
-    dbus-update-activation-environment --systemd \
-      WAYLAND_DISPLAY \
-      XDG_CURRENT_DESKTOP \
-      XDG_SESSION_TYPE \
-      QT_QPA_PLATFORM
-    systemctl --user import-environment \
-      WAYLAND_DISPLAY \
-      XDG_CURRENT_DESKTOP \
-      XDG_SESSION_TYPE
-
-    # ===== AUTOSTART =====
-    riverctl spawn "mako"
-    riverctl spawn "$HOME/.config/river/wallpaper-loader.sh"
-    riverctl spawn "udiskie -t"
-    riverctl spawn "waybar"
-    riverctl spawn "flameshot"
-    riverctl spawn "swayidle -w timeout 300 'swaylock -f' timeout 600 'systemctl suspend' before-sleep 'swaylock -f'"
-    riverctl spawn "wl-clip-persist --clipboard regular"
-
-    # ===== KEYBOARD =====
-    riverctl keyboard-layout us
-    riverctl set-repeat 50 300
-
-    # ===== KEYBINDS =====
-    riverctl map normal Super Return spawn alacritty
-    riverctl map normal Super Space spawn "fuzzel --show drun"
-    riverctl map normal Super B spawn chromium
-    riverctl map normal Super C close
-    riverctl map normal Super+Shift E exit
-    riverctl map normal Super F toggle-fullscreen
-    riverctl map normal Super+Shift Space toggle-float
-
-    riverctl map normal Super F1 spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-    riverctl map normal Super F2 spawn "pactl set-sink-volume @DEFAULT_SINK@ -5%"
-    riverctl map normal Super F3 spawn "pactl set-sink-volume @DEFAULT_SINK@ +5%"
-
-    # Focus
-    riverctl map normal Super H focus-view left
-    riverctl map normal Super J focus-view down
-    riverctl map normal Super K focus-view up
-    riverctl map normal Super L focus-view right
-    riverctl map normal Super Left focus-view left
-    riverctl map normal Super Down focus-view down
-    riverctl map normal Super Up focus-view up
-    riverctl map normal Super Right focus-view right
-
-    # Swap
-    riverctl map normal Super+Shift H swap left
-    riverctl map normal Super+Shift J swap down
-    riverctl map normal Super+Shift K swap up
-    riverctl map normal Super+Shift L swap right
-    riverctl map normal Super+Shift Left swap left
-    riverctl map normal Super+Shift Down swap down
-    riverctl map normal Super+Shift Up swap up
-    riverctl map normal Super+Shift Right swap right
-
-    riverctl map normal Super V spawn "cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"
-    riverctl map normal Super+Shift X spawn "swaylock -f"
-
-    # Workspaces
-    for i in $(seq 1 9); do
-      tags=$((1 << ($i - 1)))
-      riverctl map normal Super $i set-focused-tags $tags
-      riverctl map normal Super+Shift $i set-view-tags $tags
-    done
-    riverctl map normal Super+Control $i toggle-focused-tags $tags
-    riverctl map normal Super+Shift+Control $i toggle-view-tags $tags
-
-    riverctl map normal Super Tab focus-previous-tags
-
-
-    # Audio
-    riverctl map normal None XF86AudioMute spawn "pactl set-sink-mute @DEFAULT_SINK@ toggle"
-    riverctl map normal None XF86AudioLowerVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ -11%"
-    riverctl map normal None XF86AudioRaiseVolume spawn "pactl set-sink-volume @DEFAULT_SINK@ +11%"
-
-    # Brightness
-    riverctl map normal Super Page_Up spawn "ddcutil setvcp 10 + 15"
-    riverctl map normal Super Page_Down spawn "ddcutil setvcp 10 - 15"
-
-    # Screenshots
-    riverctl map normal Super Z spawn "$HOME/.local/bin/screenshot-capture-wayland.sh"
-    riverctl map normal Super+Shift Z spawn "$HOME/.local/bin/screenshot-capture-wayland.sh"
-
-    # Wallpaper
-    riverctl map normal Super W spawn "$HOME/.config/river/cycle-wallpaper.sh"
-
-    # File manager
-    riverctl map normal Super E spawn nautilus
-
-    # Lock screen
-    riverctl map normal Super+Shift L spawn "swaylock -f -c 1a1a2e"
-
-    # Notification dismiss
-    riverctl map normal Super N spawn "makoctl dismiss"
-    riverctl map normal Super+Shift N spawn "makoctl dismiss --all"
-
-    # Scratchpad toggle (floating terminal)
-    riverctl map normal Super grave spawn "alacritty --class scratch"
-
-    # Move views to/from output
-    riverctl map normal Super+Shift period send-to-output next
-    riverctl map normal Super+Shift comma send-to-output previous
-
-    # ===== RESIZE MODE =====
-    riverctl declare-mode resize
-    riverctl map normal Super R enter-mode resize
-    riverctl map resize None Right send-layout-cmd rivertile "main-ratio +0.05"
-    riverctl map resize None Left send-layout-cmd rivertile "main-ratio -0.05"
-    riverctl map resize None Up resize-view 0 -50
-    riverctl map resize None Down resize-view 0 50
-    riverctl map resize None Escape enter-mode normal
-    riverctl map resize None Return enter-mode normal
-
-    # Mouse
-    riverctl map-pointer normal Super BTN_LEFT move-view
-    riverctl map-pointer normal Super BTN_RIGHT resize-view
-
-    # ===== APPEARANCE =====
-    riverctl border-width 4
-    riverctl border-color-focused 0xCF1358
-    riverctl border-color-unfocused 0x4A0030
-    riverctl xcursor-theme Adwaita 24
-    riverctl focus-follows-cursor normal
-    riverctl default-attach-mode bottom
-
-    # ===== Monitor's REfresh rate =====
-    riverctl spawn "wlr-randr --output HDMI-A-2 --mode 1280x1024@75.004997"
-
-    # ===== Warm light =====
-    riverctl spawn "wlsunset -l 22.84 -L 89.54 -t 4500 -T 6500"
-
-    # ===== Clipbaord =====
-    riverctl spawn "wl-paste --watch cliphist store"
-
-    # ===== LAYOUT =====
-    riverctl default-layout rivertile
-    rivertile -view-padding 5 -outer-padding 4 &
-  '';
-};
 
 
 programs.ghostty = {
@@ -305,7 +325,7 @@ home.file.".config/waybar/config.jsonc" = {
       "position": "top",
       "spacing": 0,
       "height": 26,
-      "modules-left": ["river/tags"],
+      "modules-left": ["hyprland/workspaces"],
       "modules-center": ["clock"],
       "modules-right": [
         "custom/screenshot",
@@ -316,10 +336,6 @@ home.file.".config/waybar/config.jsonc" = {
         "cpu",
         "memory"
       ],
-      "river/tags": {
-        "num-tags": 9,
-        "tag-labels": ["1","2","3","4","5","6","7","8","9"]
-      },
       "clock": {
         "format": "{:%A %H:%M}",
         "format-alt": "{:%d %B W%V %Y}",
@@ -416,7 +432,7 @@ home.file.".config/waybar/style.css" = {
     .modules-right {
       margin-right: 8px;
     }
-    #tags button {
+    #workspaces button {
       all: initial;
       font-family: 'JetBrainsMono Nerd Font';
       font-size: 12px;
@@ -426,14 +442,14 @@ home.file.".config/waybar/style.css" = {
       min-width: 9px;
       color: #888;
     }
-    #tags button.focused {
+    #workspaces button.active {
       color: #fef9f0;
       background-color: #c2185b;
     }
-    #tags button.occupied {
+    #workspaces button.nonempty {
       color: #c2185b;
     }
-    #tags button.urgent {
+    #workspaces button.urgent {
       color: #fef9f0;
       background-color: #880e4f;
     }

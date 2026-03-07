@@ -68,7 +68,6 @@ imports =
   environment.systemPackages = with pkgs; [
      vim
      wget
-     river-classic
      chromium
      foot
      alacritty
@@ -88,21 +87,16 @@ imports =
      cliphist
      wtype
      wl-clip-persist
-     wl-clipboard
      wlr-randr
      swayidle
      swaylock
      swaybg
      kdePackages.dolphin
      sonic-pi
-     swaylock
      mako
      slurp
      grim
-     wl-clipboard
-     xdg-terminal-exec
      xdg-desktop-portal-gtk
-     xdg-desktop-portal-wlr
      starship
      atuin
      zoxide
@@ -121,7 +115,6 @@ imports =
      less
      gvfs
      firefox
-     git
      github-cli
      lazygit
      brightnessctl
@@ -202,12 +195,14 @@ imports =
   hardware.cpu.intel.updateMicrocode = true;
   security.polkit.enable = true;
   services.greetd = {
-    enable = true;
-    settings.default_session = {
-      command = "${pkgs.river-classic}/bin/river";
-      user = "az";
-    };
+  enable = true;
+  settings.default_session = {
+    user = "az";
+    command = "hyprland";
   };
+};
+
+
   
 services.pipewire = {
   enable = true;
@@ -236,12 +231,18 @@ zramSwap.enable = true;
 security.rtkit.enable = true;
 networking.firewall.enable = true;
 
+
+
 xdg.portal = {
   enable = true;
-  wlr.enable = true;
-  extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+  extraPortals = [
+    pkgs.xdg-desktop-portal-hyprland
+    pkgs.xdg-desktop-portal-gtk
+  ];
   config.common.default = "*";
 };
+
+
 
 fonts.packages = with pkgs; [
   noto-fonts
@@ -254,7 +255,11 @@ fonts.packages = with pkgs; [
 
 security.pam.services.swaylock = {};
 
-
+programs.hyprland = {
+  enable = true;
+  withUWSM = true;
+  xwayland.enable = true;
+};
 
   system.stateVersion = "25.11"; # Did you read the comment?
 
