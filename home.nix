@@ -54,19 +54,20 @@ programs.alacritty = {
     window.padding = { x = 10; y = 10; };
     font = {
       normal.family = "JetBrainsMono Nerd Font";
-      size = 12;
+      size = 17;
     };
+    
     colors = {
-      primary = {
-        background = "#fef9f0";
-        foreground = "#0a0a0a";
-      };
-      cursor = {
-        text = "#fef9f0";
-        cursor = "#c2185b";
-      };
-    };
-    cursor.style = "Block";
+  primary = {
+    background = "#282828";
+    foreground = "#ebdbb2";
+  };
+  cursor = {
+    text = "#282828";
+    cursor = "#c2185b";
+  };
+};
+   cursor.style = "Block";
     window.opacity = 1.0;
   };
 };
@@ -272,6 +273,25 @@ home.file.".config/river/init" = {
 };
 
 
+programs.ghostty = {
+  enable = true;
+  settings = {
+    background = "#282828";
+    foreground = "#ebdbb2";
+    cursor-color = "#c2185b";
+    selection-background = "#3c3836";
+    selection-foreground = "#ebdbb2";
+    font-family = "JetBrainsMono Nerd Font";
+    font-size = 13;
+    window-padding-x = 12;
+    window-padding-y = 12;
+    gtk-titlebar = false;
+    gtk-single-instance = true;
+  };
+};
+
+
+
 
 
 
@@ -470,6 +490,7 @@ home.file.".config/waybar/style.css" = {
 };
 
 
+
 home.file.".config/fastfetch/config.jsonc" = {
   text = ''
     {
@@ -622,6 +643,10 @@ home.file.".config/fastfetch/config.jsonc" = {
     }
   '';
 };
+
+
+
+
 
 
 home.file.".local/bin/screenshot-capture-wayland.sh" = {
