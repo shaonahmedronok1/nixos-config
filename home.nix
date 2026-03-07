@@ -119,6 +119,12 @@ wayland.windowManager.hyprland = {
       "$mod, Return, exec, alacritty"
       "$mod, grave, exec, alacritty"
 
+      
+
+      "$mod, period, exec, cat ~/.config/.emoji | fuzzel --dmenu | awk '{print $1}' | wl-copy && wtype -M ctrl v"
+      
+
+
       # Apps
       "$mod, Space, exec, fuzzel"
       "$mod, B, exec, chromium"
@@ -689,6 +695,75 @@ home.file.".local/bin/screenshot-capture-wayland.sh" = {
     fi
   '';
 };
+
+
+
+
+
+
+home.file.".config/.emoji".text = ''
+  🔥 fire hot
+  💯 hundred perfect
+  ✨ sparkles magic
+  💙 blue heart
+  🤍 white heart
+  ⚡ lightning fast energy
+  🌙 moon night
+  ☀️ sun bright day
+  🍁 maple leaf nature plant vegetable ca fall
+  🦀 crab animal crustacean
+  🦞 lobster animal nature bisque claws seafood
+  🦐 shrimp animal ocean nature seafood
+  ❄️ snowflake winter season cold weather christmas xmas
+  ✨ sparkles stars shine shiny cool awesome good magic
+  📚 books literature library study
+  ✏️ pencil stationery write paper writing school study
+  ✒️ black nib pen stationery writing write
+  🖋️ fountain pen stationery writing write
+  🖊️ pen stationery writing write
+  🖌️ paintbrush drawing creativity art
+  🖍️ crayon drawing creativity
+  🧬 dna biologist genetics life
+  ⚛️ atom symbol science physics chemistry
+  🪸 coral ocean sea reef
+  🪷 lotus flower calm meditation
+  🫧 bubbles soap fun carbonation sparkling
+  🍫 chocolate bar food snack dessert sweet
+  🍕 pizza food party
+  🌭 hot dog food frankfurter
+  🥦 broccoli fruit food vegetable
+  🍞 bread food wheat breakfast toast
+  🥐 croissant food bread french
+  🥖 baguette bread food bread french
+  🥪 sandwich food lunch bread
+  🥗 green salad food healthy lettuce
+  🍿 popcorn food movie theater films snack
+  🍝 spaghetti food italian noodle
+  🌺 hibiscus plant vegetable flowers beach
+  🦩 flamingo animal
+  🦉 owl animal nature bird hoot
+  🐧 penguin animal nature
+  🐼 panda animal nature panda
+  🤝 handshake agreement shake
+  💢 anger symbol angry mad
+  💮 white flower japanese spring
+  🌸 cherry blossom flower
+'';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
