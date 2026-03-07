@@ -69,7 +69,6 @@ imports =
      vim
      wget
      chromium
-     foot
      alacritty
      nautilus
      ddcutil
@@ -198,7 +197,7 @@ imports =
   enable = true;
   settings.default_session = {
     user = "az";
-    command = "hyprland";
+    command = "Hyprland";
   };
 };
 
