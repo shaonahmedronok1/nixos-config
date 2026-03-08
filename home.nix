@@ -87,7 +87,7 @@ wayland.windowManager.hyprland = {
       gaps_in = 5;
       gaps_out = 10;
       border_size = 4;
-      "col.active_border" = "rgba(CF1358ff)";
+      "col.active_border" = "rgba(00CED9ff)";
       "col.inactive_border" = "rgba(4A0030ff)";
       layout = "dwindle";
     };
@@ -225,30 +225,48 @@ wayland.windowManager.hyprland = {
 
 
 
-
 programs.alacritty = {
   enable = true;
   settings = {
     window.padding = { x = 10; y = 10; };
+    window.opacity = 1.0;
+    cursor.style = "Block";
     font = {
       normal.family = "JetBrainsMono Nerd Font";
       size = 17;
     };
-    
     colors = {
-  primary = {
-    background = "#282828";
-    foreground = "#ebdbb2";
-  };
-  cursor = {
-    text = "#282828";
-    cursor = "#c2185b";
+      primary = {
+        background = "#242424";
+        foreground = "#fbf1c7";
+      };
+      cursor = {
+        text = "#242424";
+        cursor = "#fbf1c7";
+      };
+      selection = {
+        text = "#504945";
+        background = "#3c3836";
+      };
+    };
   };
 };
-   cursor.style = "Block";
-    window.opacity = 1.0;
-  };
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 services.mako = {

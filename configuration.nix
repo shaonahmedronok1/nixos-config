@@ -68,6 +68,7 @@ imports =
   environment.systemPackages = with pkgs; [
      vim
      wget
+     nh
      chromium
      alacritty
      nautilus
