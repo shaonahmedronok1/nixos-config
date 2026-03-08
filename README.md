@@ -3,7 +3,7 @@
 
 [![Website](https://img.shields.io/badge/🌸%20shaon.neocities.org-c2185b?style=for-the-badge)](https://shaon.neocities.org)
 [![NixOS](https://img.shields.io/badge/NixOS-25.11-%235277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
-[![River](https://img.shields.io/badge/River-WM-c2185b?style=for-the-badge&logo=wayland&logoColor=white)](https://isaacfreund.com/software/river/)
+[![Hyprland](https://img.shields.io/badge/Hyprland-WM-58E1FF?style=for-the-badge&logo=wayland&logoColor=black)](https://hyprland.org/)
 [![Flakes](https://img.shields.io/badge/Flakes-Enabled-5277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.wiki/wiki/Flakes)
 [![Home Manager](https://img.shields.io/badge/Home_Manager-25.11-c2185b?style=for-the-badge)](https://nix-community.github.io/home-manager/)
 
@@ -20,7 +20,7 @@
 | | |
 |---|---|
 | **OS** | NixOS 25.11 |
-| **WM** | River (Wayland) |
+| **WM** | Hyprland (Wayland) |
 | **Terminal** | Ghostty + Alacritty |
 | **Shell** | Bash + Starship |
 | **Editor** | Neovim |
