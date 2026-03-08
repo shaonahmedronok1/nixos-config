@@ -71,6 +71,9 @@ imports =
      nh
      chromium
      alacritty
+     kitty
+     lolcat
+     figlet
      nautilus
      ddcutil
      neovim

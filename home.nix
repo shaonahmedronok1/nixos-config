@@ -116,8 +116,8 @@ wayland.windowManager.hyprland = {
 
     bind = [
       # Terminal
-      "$mod, Return, exec, alacritty"
-      "$mod, grave, exec, alacritty"
+      "$mod, Return, exec, kitty"
+      "$mod, grave, exec, kitty"
 
       
 
@@ -225,6 +225,30 @@ wayland.windowManager.hyprland = {
 
 
 
+
+programs.kitty = {
+  enable = true;
+  settings = {
+    window_padding_width = 10;
+    background_opacity = "1.0";
+    cursor_shape = "block";
+    font_family = "JetBrainsMono Nerd Font";
+    font_size = 17;
+
+    background           = "#242424";
+    foreground           = "#fbf1c7";
+    cursor               = "#fbf1c7";
+    cursor_text_color    = "#242424";
+    selection_foreground = "#504945";
+    selection_background = "#3c3836";
+  };
+};
+
+
+
+
+
+
 programs.alacritty = {
   enable = true;
   settings = {
@@ -251,18 +275,6 @@ programs.alacritty = {
     };
   };
 };
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -368,7 +380,7 @@ home.file.".config/waybar/config.jsonc" = {
       "cpu": {
         "interval": 5,
         "format": "󰍛",
-        "on-click": "alacritty -e btop"
+        "on-click": "kitty -e btop"
       },
       "memory": {
         "interval": 5,
@@ -379,7 +391,7 @@ home.file.".config/waybar/config.jsonc" = {
         "format": "{icon} {volume}%",
         "format-muted": "󰝟 muted",
         "scroll-step": 5,
-        "on-click": "alacritty -e wiremix",
+        "on-click": "kitty -e wiremix",
         "on-click-right": "pamixer -t",
         "tooltip-format": "Volume: {volume}%",
         "format-icons": {
@@ -398,7 +410,7 @@ home.file.".config/waybar/config.jsonc" = {
         "tooltip-format-ethernet": "⇣{bandwidthDownBytes}  ⇡{bandwidthUpBytes}",
         "tooltip-format-disconnected": "Disconnected",
         "interval": 3,
-        "on-click": "alacritty -e nmtui"
+        "on-click": "kitty -e nmtui"
       },
       "bluetooth": {
         "format": "",
