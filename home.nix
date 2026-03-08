@@ -50,9 +50,6 @@ programs.git = {
 
 
 
-
-
-
 wayland.windowManager.hyprland = {
   enable = true;
   systemd.enable = true;
@@ -90,6 +87,7 @@ wayland.windowManager.hyprland = {
       "col.active_border" = "rgba(00CED9ff)";
       "col.inactive_border" = "rgba(4A0030ff)";
       layout = "dwindle";
+      resize_on_border = true;          # NEW — resize by dragging any window edge
     };
 
     decoration = {
@@ -98,6 +96,14 @@ wayland.windowManager.hyprland = {
         enabled = true;
         size = 3;
         passes = 1;
+      };
+      active_opacity = 1.0;             # NEW
+      inactive_opacity = 0.95;          # NEW
+      shadow = {                        # NEW — shadow moved to sub-block in current Hyprland
+        enabled = true;
+        range = 8;
+        render_power = 2;
+        "color" = "rgba(1a1a1aee)";
       };
     };
 
@@ -113,6 +119,45 @@ wayland.windowManager.hyprland = {
       pseudotile = true;
       preserve_split = true;
     };
+
+    # ── NEW: animations ───────────────────────────────────────────────────────
+    animations = {
+      enabled = true;
+      bezier = [
+        "ease, 0.4, 0.0, 0.2, 1.0"
+      ];
+      animation = [
+        "windows,    1, 4, ease, popin 80%"
+        "windowsOut, 1, 4, ease, popin 80%"
+        "border,     1, 5, ease"
+        "fade,       1, 4, ease"
+        "workspaces, 1, 5, ease, slide"
+      ];
+    };
+
+    # ── NEW: misc ─────────────────────────────────────────────────────────────
+    misc = {
+      disable_hyprland_logo    = true;
+      disable_splash_rendering = true;
+      force_default_wallpaper  = 0;
+    };
+
+    # ── NEW: cursor ───────────────────────────────────────────────────────────
+    cursor = {
+      no_hardware_cursors = false;
+    };
+
+    # ── NEW: windowrulev2 ─────────────────────────────────────────────────────
+    windowrulev2 = [
+      "float, class:^(pavucontrol)$"
+      "float, class:^(nm-connection-editor)$"
+      "float, title:^(File Operation Progress)$"
+      "float, title:^(Confirm to replace files)$"
+      "float, class:^(xdg-desktop-portal-gtk)$"
+      "float, class:^(imv)$"
+      "size 900 600, class:^(pavucontrol)$"
+      "center, class:^(pavucontrol)$"
+    ];
 
     bind = [
       # Terminal
@@ -226,6 +271,9 @@ wayland.windowManager.hyprland = {
 
 
 
+
+
+
 programs.kitty = {
   enable = true;
   settings = {
@@ -325,6 +373,20 @@ programs.swaylock = {
 };
 
 
+
+
+
+programs.imv = {
+  enable = true;
+  settings = {
+    binds = {
+      "<Ctrl+p>"       = ''exec lp "$imv_current_file"'';
+      "<Ctrl+x>"       = ''exec rm "$imv_current_file"; quit'';
+      "<Ctrl+Shift+X>" = ''exec rm "$imv_current_file"; close'';
+      "<Ctrl+r>"       = ''exec mogrify -rotate 90 "$imv_current_file"'';
+    };
+  };
+};
 
 
 
@@ -788,35 +850,10 @@ home.file.".config/.emoji".text = ''
 
 
 
-
-
-
-
-
-
-
-
-
 home.file.".config/yazi/yazi.toml" = {
   text = ''
     [mgr]
     show_hidden = true
-
-    [[opener.browser]]
-    run = 'firefox "$@"'
-    orphan = true
-    desc = "Open in Firefox"
-    for = "unix"
-
-    [[open.prepend_rules]]
-    mime = "text/html"
-    use = "browser"
-
-    [[open.prepend_rules]]
-    mime = "application/xhtml+xml"
-    use = "browser"
-
-
 
     [opener]
     edit = [
@@ -831,6 +868,13 @@ home.file.".config/yazi/yazi.toml" = {
     play_audio = [
         { run = 'killall -q mpv; mpv --force-window --no-resume-playback "$@"', desc = "Play Audio" }
     ]
+
+    [[opener.browser]]
+    run = 'firefox "$@"'
+    orphan = true
+    desc = "Open in Firefox"
+    for = "unix"
+
     [open]
     rules = [
         { mime = "audio/*", use = "play_audio" },
@@ -838,8 +882,27 @@ home.file.".config/yazi/yazi.toml" = {
         { mime = "text/*", use = "edit" },
         { mime = "video/*", use = [ "open" ] },
     ]
+
+    [[open.prepend_rules]]
+    mime = "text/html"
+    use = "browser"
+
+    [[open.prepend_rules]]
+    mime = "application/xhtml+xml"
+    use = "browser"
   '';
 };
+
+
+
+
+
+
+
+
+
+
+
 
 
 
