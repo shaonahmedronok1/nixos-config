@@ -1,5 +1,5 @@
 <div align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffb7c5,100:c2185b&height=180&section=header&text=nixos-config&fontSize=36&fontColor=fff&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20Flakes%20%C2%B7%20Home%20Manager%20%C2%B7%20River%20WM%20%C2%B7%20Wayland&descAlignY=58&descColor=ffe0ec"/>
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffb7c5,100:c2185b&height=180&section=header&text=nixos-config&fontSize=36&fontColor=fff&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20Flakes%20%C2%B7%20Home%20Manager%20%C2%B7%20Hyprland%20WM%20%C2%B7%20Wayland&descAlignY=58&descColor=ffe0ec"/>
 
 [![Website](https://img.shields.io/badge/🌸%20shaon.neocities.org-c2185b?style=for-the-badge)](https://shaon.neocities.org)
 [![NixOS](https://img.shields.io/badge/NixOS-25.11-%235277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
@@ -32,7 +32,6 @@
 | **Screen Lock** | Swaylock |
 | **Idle Daemon** | Swayidle |
 | **Warm Light** | Wlsunset |
-| **Hardware** | Intel i5-6500 · 8GB RAM · 119GB NVMe |
 
 ---
 
