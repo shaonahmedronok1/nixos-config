@@ -282,8 +282,12 @@ home.file.".config/hypr/cycle-wallpaper.sh" = {
 
 
 
-
-
+programs.atuin = {
+  enable = true;
+  settings = {
+    filter_mode_shell_up_arrow_history = "global";
+  };
+};
 
 
 
@@ -307,7 +311,7 @@ programs.kitty = {
     foreground           = "#fbf1c7";
     cursor               = "#fbf1c7";
     cursor_text_color    = "#242424";
-    selection_foreground = "#504945";
+    selection_foreground = "#fbf1c7";
     selection_background = "#3c3836";
   };
 };
@@ -359,6 +363,16 @@ services.mako = {
     border-radius = 6;
   };
 };
+
+
+
+
+
+
+
+
+
+
 
 programs.fuzzel = {
   enable = true;
