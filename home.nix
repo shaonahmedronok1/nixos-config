@@ -84,7 +84,7 @@ wayland.windowManager.hyprland = {
       gaps_in = 5;
       gaps_out = 10;
       border_size = 4;
-      "col.active_border" = "rgba(00CED9ff)";
+      "col.active_border" = "rgba(00CED9ff) rgba(00fff5cc) 45deg";
       "col.inactive_border" = "rgba(4A0030ff)";
       layout = "dwindle";
       resize_on_border = true;          # NEW — resize by dragging any window edge
@@ -103,7 +103,7 @@ wayland.windowManager.hyprland = {
         enabled = true;
         range = 8;
         render_power = 2;
-        "color" = "rgba(1a1a1aee)";
+        "color" = "rgba(00CED9bb)";
       };
     };
 
@@ -197,7 +197,7 @@ wayland.windowManager.hyprland = {
       "$mod SHIFT, Z, exec, bash ~/.local/bin/screenshot-capture-wayland.sh"
 
       # Wallpaper
-      "$mod, W, exec, bash ~/.config/river/cycle-wallpaper.sh"
+      "$mod, W, exec, bash ~/.config/hypr/cycle-wallpaper.sh"
 
       # Focus
       "$mod, H, movefocus, l"
@@ -264,6 +264,26 @@ wayland.windowManager.hyprland = {
     ];
   };
 };
+
+
+
+
+
+
+home.file.".config/hypr/cycle-wallpaper.sh" = {
+  executable = true;
+  text = ''
+    #!/bin/bash
+    WALLPAPER_DIR="$HOME/.config/hypr/wallpapers"
+    WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -name "*.jpg" -o -name "*.png" -o -name "*.jpeg" -o -name "*.gif" \) | shuf -n 1)
+    swww img "$WALLPAPER" --transition-type fade --transition-duration 1
+  '';
+};
+
+
+
+
+
 
 
 
