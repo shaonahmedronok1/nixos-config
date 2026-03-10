@@ -264,6 +264,9 @@ programs.hyprland = {
   xwayland.enable = true;
 };
 
+
+services.flatpak.enable = true;
+
   system.stateVersion = "25.11"; # Did you read the comment?
 
 }
