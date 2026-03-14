@@ -67,6 +67,8 @@ imports =
   # $ nix search wget
   environment.systemPackages = with pkgs; [
      vim
+     google-chrome
+     tor-browser
      wget
      nh
      chromium
@@ -80,6 +82,7 @@ imports =
      udisks2
      udiskie
      btop
+     gimp
      fastfetch
      wl-clipboard
      xdg-terminal-exec
