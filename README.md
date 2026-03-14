@@ -21,10 +21,9 @@
 |---|---|
 | **OS** | NixOS 25.11 |
 | **WM** | Hyprland (Wayland) |
-| **Terminal** | Ghostty + Alacritty |
+| **Terminal** | Kitty + Ghostty + Alacritty |
 | **Shell** | Bash + Starship |
 | **Editor** | Neovim |
-| **Browser** | Chromium |
 | **Launcher** | Fuzzel |
 | **Bar** | Waybar |
 | **Notifications** | Mako |
