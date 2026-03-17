@@ -92,8 +92,8 @@ wayland.windowManager.hyprland = {
     ];
 
     general = {
-      gaps_in = 5;
-      gaps_out = 10;
+      gaps_in = 0;
+      gaps_out = 0;
       border_size = 4;
       "col.active_border" = "rgba(00CED9ff) rgba(00fff5cc) 45deg";
       "col.inactive_border" = "rgba(4A0030ff)";
