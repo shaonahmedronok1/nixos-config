@@ -37,15 +37,26 @@
     };
   };
 
+
+
+
+
 programs.git = {
   enable = true;
   settings = {
     user.name = "shaonahmedronok1";
     user.email = "shaonbtw@gmail.com";
-    init.defaultBranch = "main";
-    pull.rebase = false;
+    safe.directory = "/etc/nixos";
   };
 };
+
+
+
+
+
+
+
+
 
 
 
