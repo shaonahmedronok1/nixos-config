@@ -60,112 +60,163 @@ imports =
     packages = with pkgs; [];
   };
 
+
+
+
+
+
+
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     vim
-     google-chrome
-     tor-browser
-     wget
-     nh
-     chromium
-     alacritty
-     kitty
-     lolcat
-     figlet
-     nautilus
-     ddcutil
+     
+#IDEs/Text=editors
      neovim
+
+#Writings
+     typst
+
+#Terminal emulators
+     kitty
+     alacritty
+     ghostty
+     
+#Browsers
+     google-chrome
+     librewolf
+     firefox
+     tor-browser
+
+#Image viwer
+     imv
+
+#Media player
+     mpv
+
+#Img-Vid editros
+     gimp
+     inkscape
+
+#Topbar
+     waybar
+
+#Application-launcher
+     fuzzel
+
+#Audio-stuff
+     wiremix
+     wireplumber
+     pamixer
+     sonic-pi
+
+#Clipboard-stuff
+     wl-clipboard
+     cliphist
+     wl-clip-persist
+     xdg-terminal-exec
+     wtype
+
+#File-managers/drive-mounting-and-others
+     yazi
+     kdePackages.dolphin
+     gvfs
      udisks2
      udiskie
-     btop
-     gimp
-     fastfetch
-     wl-clipboard
-     xdg-terminal-exec
-     ghostty
-     waybar
-     wiremix
+     gnome-disk-utility
+     unzip
+     p7zip
+
+#Password-manager
+     keepassxc
+
+#notification
+     mako
+
+#screenshort
+     slurp
+     grim
+     flameshot
+
+#Screen-recorders
+     obs-studio
+     gpu-screen-recorder
+
+#night-light
      wlsunset
-     cliphist
-     wtype
-     wl-clip-persist
+
+#Task-manager
+     btop
+
+#System-info
+     fastfetch 
+
+#Display-stuff
+     ddcutil
      wlr-randr
      swayidle
      swaylock
      swaybg
-     kdePackages.dolphin
-     sonic-pi
-     mako
-     slurp
-     grim
      xdg-desktop-portal-gtk
+     polkit_gnome
+     qt5.qtwayland
+     brightnessctl
+     swww
+
+#manual-pages
+     man-db
+
+#Calculator
+     gnome-calculator
+
+#Network-connectivity
+     iwd
+     networkmanagerapplet
+
+ 
+#Utils
+     wget
+     nh
+     lolcat
+     figlet
+     nautilus
      starship
      atuin
      zoxide
-     tmux
-     yazi
      ncdu
      dust
      fd
      ripgrep
      fzf
      eza
-     bat
      tree
      jq
      yq
      less
-     gvfs
-     firefox
-     github-cli
-     lazygit
-     brightnessctl
      playerctl
-     pamixer
-     wireplumber
      plocate
      curl
-     unzip
-     p7zip
-     man-db
      tldr
-     networkmanagerapplet
      clang
      rustup
      python3
      luarocks
-     typst
-     mpv
-     imv
      imagemagick
      yt-dlp
-     obs-studio
      evince
-     inkscape
      pinta
-     flameshot
      localsend
-     keepassxc
-     gnome-calculator
-     gnome-disk-utility
      gnome-keyring
      libqalculate
-     gpu-screen-recorder
      fcitx5
      fcitx5-gtk
-     qt5.qtwayland
      snapper
      gum
      hyprpicker
-     polkit_gnome
-     swww
-     fuzzel
      tree-sitter
-     iwd
      wev
      git
  ];
