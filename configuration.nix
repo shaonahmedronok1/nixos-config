@@ -84,8 +84,7 @@ security.pam.services.hyprlock = {};
 #Terminal emulators
      kitty
      alacritty
-     ghostty
-     
+          
 #Browsers
      google-chrome
      librewolf
@@ -181,6 +180,7 @@ security.pam.services.hyprlock = {};
      wget
      nh
      lolcat
+     bat
      figlet
      nautilus
      starship

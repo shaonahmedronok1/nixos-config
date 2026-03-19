@@ -418,12 +418,12 @@ programs.kitty = {
   enable = true;
   settings = {
     window_padding_width = 10;
-    background_opacity   = "0.94";
+    background_opacity   = "1.0";
     cursor_shape         = "block";
     font_family          = "JetBrainsMono Nerd Font";
     font_size            = 17;
 
-    background           = "#0d0d0d";
+    background           = "#242424";
     foreground           = "#ebdbb2";
     cursor               = "#d4956a";
     cursor_text_color    = "#0d0d0d";
@@ -458,45 +458,6 @@ programs.kitty = {
 };
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-programs.alacritty = {
-  enable = true;
-  settings = {
-    window.padding = { x = 10; y = 10; };
-    window.opacity = 1.0;
-    cursor.style = "Block";
-    font = {
-      normal.family = "JetBrainsMono Nerd Font";
-      size = 17;
-    };
-    colors = {
-      primary = {
-        background = "#242424";
-        foreground = "#fbf1c7";
-      };
-      cursor = {
-        text = "#242424";
-        cursor = "#fbf1c7";
-      };
-      selection = {
-        text = "#504945";
-        background = "#3c3836";
-      };
-    };
-  };
-};
 
 
 
@@ -577,28 +538,6 @@ programs.imv = {
 
 
 
-programs.ghostty = {
-  enable = true;
-  settings = {
-    background = "#282828";
-    foreground = "#ebdbb2";
-    cursor-color = "#c2185b";
-    selection-background = "#3c3836";
-    selection-foreground = "#ebdbb2";
-    font-family = "JetBrainsMono Nerd Font";
-    font-size = 13;
-    window-padding-x = 12;
-    window-padding-y = 12;
-    gtk-titlebar = false;
-    gtk-single-instance = true;
-  };
-};
-
-
-
-
-
-
 
 
 home.file.".config/waybar/config.jsonc" = {
@@ -608,10 +547,12 @@ home.file.".config/waybar/config.jsonc" = {
       "layer": "top",
       "position": "top",
       "spacing": 0,
-      "height": 26,
+      "height": 16,
       "modules-left": ["hyprland/workspaces"],
       "modules-center": ["clock"],
       "modules-right": [
+        "custom/nightlight",
+        "custom/media",
         "custom/screenshot",
         "group/tray-expander",
         "bluetooth",
@@ -627,13 +568,28 @@ home.file.".config/waybar/config.jsonc" = {
       },
       "cpu": {
         "interval": 5,
-        "format": "󰍛",
+        "format": "󰍛 {usage}%",
+        "tooltip": true,
         "on-click": "kitty -e btop"
       },
       "memory": {
         "interval": 5,
-        "format": "󰾆",
+        "format": "󰾆 {percentage}%",
         "tooltip-format": "{used:0.1f}G / {total:0.1f}G"
+      },
+      "custom/media": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "playerctl -a metadata --format '{\"text\": \"{{emoji(status)}} {{title}}\", \"tooltip\": \"{{playerName}}: {{title}} — {{artist}}\", \"class\": \"{{status}}\"}' -F 2>/dev/null",
+        "on-click": "playerctl play-pause",
+        "max-length": 30
+      },
+      "custom/nightlight": {
+        "format": "{}",
+        "exec": "if pgrep -x wlsunset > /dev/null; then echo '󰛨'; else echo '󰛩'; fi",
+        "interval": 3,
+        "on-click": "bash ~/.local/bin/wlsunset-toggle.sh",
+        "tooltip-format": "Night light toggle"
       },
       "pulseaudio": {
         "format": "{icon} {volume}%",
@@ -699,7 +655,7 @@ home.file.".config/waybar/style.css" = {
   text = ''
     * {
       font-family: 'JetBrainsMono Nerd Font';
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
       min-height: 0;
       border: none;
@@ -719,23 +675,27 @@ home.file.".config/waybar/style.css" = {
     #workspaces button {
       all: initial;
       font-family: 'JetBrainsMono Nerd Font';
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 600;
-      padding: 0 6px;
+      padding: 0 4px;
       margin: 0 1.5px;
       min-width: 9px;
-      color: #888;
+      color: #3c3836;
+      opacity: 0.4;
     }
     #workspaces button.active {
       color: #fef9f0;
       background-color: #c2185b;
+      opacity: 1.0;
     }
     #workspaces button.nonempty {
       color: #c2185b;
+      opacity: 1.0;
     }
     #workspaces button.urgent {
       color: #fef9f0;
       background-color: #880e4f;
+      opacity: 1.0;
     }
     #clock {
       color: #0a0a0a;
@@ -783,11 +743,31 @@ home.file.".config/waybar/style.css" = {
     #custom-screenshot:hover {
       color: #c2185b;
     }
+    #custom-media {
+      color: #c2185b;
+    }
+    #custom-media.Paused {
+      color: #888;
+    }
+    #custom-nightlight {
+      color: #0a0a0a;
+      margin: 0 7.5px;
+    }
+    #custom-nightlight:hover {
+      color: #c2185b;
+    }
     tooltip {
       padding: 2px;
     }
   '';
 };
+
+
+
+
+
+
+
 
 
 
@@ -1007,11 +987,11 @@ home.file.".config/nvim/lua/plugins/colorscheme.lua".text = ''
       opts = {
         contrast = "hard",
         overrides = {
-          Normal         = { bg = "#0d0d0d" },
-          NormalNC       = { bg = "#0d0d0d" },
-          SignColumn     = { bg = "#0d0d0d" },
-          EndOfBuffer    = { bg = "#0d0d0d" },
-          NormalFloat    = { bg = "#0d0d0d" },
+          Normal         = { bg = "#242424" },
+          NormalNC       = { bg = "#242424" },
+          SignColumn     = { bg = "#242424" },
+          EndOfBuffer    = { bg = "#242424" },
+          NormalFloat    = { bg = "#242424" },
           Boolean        = { fg = "#83a598", bg = "NONE" },
           Number         = { fg = "#83a598", bg = "NONE" },
           Float          = { fg = "#83a598", bg = "NONE" },
@@ -1142,64 +1122,76 @@ home.file.".config/yazi/yazi.toml" = {
     use = "browser"
   '';
 };
+
+
 home.file.".config/yazi/theme.toml".text = ''
   [mgr]
   cwd = { fg = "#b8bb26", bold = true }
-  hovered         = { fg = "#0d0d0d", bg = "#b8bb26" }
-  preview_hovered = { underline = true }
+  hovered         = { fg = "#242424", bg = "#b8bb26" }
   find_keyword  = { fg = "#b8bb26", bold = true }
   find_position = { fg = "#d4956a", bg = "reset", bold = true }
   marker_copied   = { fg = "#b8bb26", bg = "#b8bb26" }
   marker_cut      = { fg = "#fb4934", bg = "#fb4934" }
   marker_selected = { fg = "#83a598", bg = "#83a598" }
-  tab_active   = { fg = "#0d0d0d", bg = "#b8bb26", bold = true }
-  tab_inactive = { fg = "#a89984", bg = "#1d2021" }
-  tab_width    = 1
-  count_copied   = { fg = "#0d0d0d", bg = "#b8bb26" }
-  count_cut      = { fg = "#0d0d0d", bg = "#fb4934" }
-  count_selected = { fg = "#0d0d0d", bg = "#83a598" }
+  count_copied   = { fg = "#242424", bg = "#b8bb26" }
+  count_cut      = { fg = "#242424", bg = "#fb4934" }
+  count_selected = { fg = "#242424", bg = "#83a598" }
   border_symbol = "│"
   border_style  = { fg = "#504945" }
+
+  [indicator]
+  preview = { underline = true }
+
+  [tabs]
+  active   = { fg = "#242424", bg = "#b8bb26", bold = true }
+  inactive = { fg = "#a89984", bg = "#3c3836" }
+
   [status]
   separator_open  = ""
   separator_close = ""
-  separator_style = { fg = "#1d2021", bg = "#1d2021" }
-  mode_normal = { fg = "#0d0d0d", bg = "#b8bb26", bold = true }
-  mode_select = { fg = "#0d0d0d", bg = "#b8bb26", bold = true }
-  mode_unset  = { fg = "#0d0d0d", bg = "#83a598", bold = true }
+  separator_style = { fg = "#3c3836", bg = "#3c3836" }
+  mode_normal = { fg = "#242424", bg = "#b8bb26", bold = true }
+  mode_select = { fg = "#242424", bg = "#b8bb26", bold = true }
+  mode_unset  = { fg = "#242424", bg = "#83a598", bold = true }
   progress_label  = { fg = "#ebdbb2", bold = true }
-  progress_normal = { fg = "#83a598", bg = "#1d2021" }
-  progress_error  = { fg = "#fb4934", bg = "#1d2021" }
+  progress_normal = { fg = "#83a598", bg = "#3c3836" }
+  progress_error  = { fg = "#fb4934", bg = "#3c3836" }
   permissions_t = { fg = "#d4956a" }
   permissions_r = { fg = "#b8bb26" }
   permissions_w = { fg = "#fb4934" }
   permissions_x = { fg = "#83a598" }
   permissions_s = { fg = "#504945" }
+
   [input]
   border   = { fg = "#d4956a" }
   title    = {}
   value    = {}
   selected = { reversed = true }
+
   [select]
   border   = { fg = "#d4956a" }
   active   = { fg = "#b8bb26", bold = true }
   inactive = {}
+
   [tasks]
   border  = { fg = "#d4956a" }
   title   = {}
   hovered = { underline = true }
+
   [which]
   cols            = 3
-  mask            = { bg = "#1d2021" }
+  mask            = { bg = "#3c3836" }
   cand            = { fg = "#b8bb26" }
   rest            = { fg = "#504945" }
   desc            = { fg = "#ebdbb2" }
   separator       = "  "
   separator_style = { fg = "#504945" }
+
   [notify]
   title_info  = { fg = "#b8bb26" }
   title_warn  = { fg = "#fabd2f" }
   title_error = { fg = "#fb4934" }
+
   [filetype]
   rules = [
     { mime = "image/*",         fg = "#83a598" },
@@ -1216,6 +1208,16 @@ home.file.".config/yazi/theme.toml".text = ''
     { name = "*.json",          fg = "#fabd2f" },
   ]
 '';
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1258,7 +1260,17 @@ home.file.".config/nvim/lua/plugins/lsp.lua".text = ''
 
 
 
-
+home.file.".local/bin/wlsunset-toggle.sh" = {
+  executable = true;
+  text = ''
+    #!/bin/bash
+    if pgrep -x wlsunset > /dev/null; then
+      pkill wlsunset
+    else
+      wlsunset -l 22.84 -L 89.54 -t 4500 -T 6500 &
+    fi
+  '';
+};
 
 
 
