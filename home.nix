@@ -418,7 +418,7 @@ programs.kitty = {
   enable = true;
   settings = {
     window_padding_width = 10;
-    background_opacity   = "0.92";
+    background_opacity   = "0.94";
     cursor_shape         = "block";
     font_family          = "JetBrainsMono Nerd Font";
     font_size            = 17;
@@ -794,6 +794,21 @@ home.file.".config/waybar/style.css" = {
 home.file.".config/fastfetch/config.jsonc" = {
   text = ''
     {
+      
+      "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
+  "logo": {
+    "type": "kitty-direct",
+    "source": "/home/az/dirrr/ff1.png",
+    "width": 32,
+    "height": 15,
+    "padding": {
+      "top": 1,
+      "left": 1,
+      "right": 4
+    }
+  },
+
+
       "display": {
         "separator": " : "
       },
@@ -1128,7 +1143,7 @@ home.file.".config/yazi/yazi.toml" = {
   '';
 };
 home.file.".config/yazi/theme.toml".text = ''
-  [manager]
+  [mgr]
   cwd = { fg = "#b8bb26", bold = true }
   hovered         = { fg = "#0d0d0d", bg = "#b8bb26" }
   preview_hovered = { underline = true }
