@@ -61,7 +61,7 @@ imports =
   };
 
 
-
+security.pam.services.hyprlock = {};
 
 
 
@@ -76,6 +76,7 @@ imports =
      
 #IDEs/Text=editors
      neovim
+     vscodium.fhs
 
 #Writings
      typst
@@ -157,8 +158,7 @@ imports =
 #Display-stuff
      ddcutil
      wlr-randr
-     swayidle
-     swaylock
+     hypridle
      swaybg
      xdg-desktop-portal-gtk
      polkit_gnome
@@ -310,7 +310,6 @@ fonts.packages = with pkgs; [
   font-awesome
 ];
 
-security.pam.services.swaylock = {};
 
 programs.hyprland = {
   enable = true;

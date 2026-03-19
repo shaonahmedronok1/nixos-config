@@ -86,7 +86,8 @@ wayland.windowManager.hyprland = {
       "wlsunset -l 22.84 -L 89.54 -t 4500 -T 6500"
       "wl-paste --watch cliphist store"
       "wl-clip-persist --clipboard regular"
-      "swayidle -w timeout 300 'swaylock -f' timeout 600 'systemctl suspend' before-sleep 'swaylock -f'"
+      "hyprlock"
+      #"swayidle -w timeout 300 'swaylock -f' timeout 600 'systemctl suspend' before-sleep 'swaylock -f'"
       "wlr-randr --output HDMI-A-2 --mode 1280x1024@75.004997"
       "swww-daemon"
     ];
@@ -196,8 +197,13 @@ wayland.windowManager.hyprland = {
       "$mod, V, exec, cliphist list | fuzzel --dmenu | cliphist decode | wl-copy"
 
       # Lock
-      "$mod SHIFT, X, exec, swaylock -f"
-      "$mod SHIFT, L, exec, swaylock -f -c 1a1a2e"
+      #"$mod SHIFT, X, exec, swaylock -f"
+      #"$mod SHIFT, L, exec, swaylock -f -c 1a1a2e"
+      
+      "$mod SHIFT, X, exec, hyprlock"
+      "$mod SHIFT, L, exec, hyprlock"
+
+
 
       # Notifications
       "$mod, N, exec, makoctl dismiss"
@@ -305,6 +311,105 @@ programs.atuin = {
 
 
 
+services.hypridle = {
+  enable = true;
+  settings = {
+    general = {
+      lock_cmd = "pidof hyprlock || hyprlock";
+      before_sleep_cmd = "loginctl lock-session";
+      after_sleep_cmd = "hyprctl dispatch dpms on";
+    };
+    listener = [
+      {
+        timeout = 300;
+        on-timeout = "loginctl lock-session";
+      }
+      {
+        timeout = 600;
+        on-timeout = "systemctl suspend";
+      }
+    ];
+  };
+};
+
+programs.hyprlock = {
+  enable = true;
+  settings = {
+    general = {
+      hide_cursor = true;
+      ignore_empty_input = true;
+    };
+    background = [{
+      path = "screenshot";
+      blur_passes = 3;
+      blur_size = 8;
+      brightness = 0.8;
+      contrast = 0.9;
+    }];
+    input-field = [{
+      size = "250, 55";
+      position = "0, -80";
+      monitor = "";
+      dots_center = true;
+      fade_on_empty = false;
+      outline_thickness = 3;
+      outer_color = "rgb(c2185b)";
+      inner_color = "rgb(0d0d0d)";
+      font_color = "rgb(fef9f0)";
+      placeholder_text = "<i>Password...</i>";
+      shadow_passes = 2;
+      halign = "center";
+      valign = "center";
+    }];
+    label = [{
+      text = "$TIME";
+      color = "rgba(fef9f0ff)";
+      font_size = 52;
+      font_family = "JetBrainsMono Nerd Font";
+      position = "0, 80";
+      halign = "center";
+      valign = "center";
+    }];
+  };
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+home.file.".config/VSCodium/User/settings.json".text = ''
+  {
+    "workbench.colorTheme": "Gruvbox Dark Hard",
+    "editor.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.fontSize": 14,
+    "editor.fontLigatures": true,
+    "workbench.colorCustomizations": {
+      "[Gruvbox Dark Hard]": {
+        "editor.background": "#0d0d0d",
+        "terminal.background": "#0d0d0d",
+        "sideBar.background": "#0d0d0d",
+        "activityBar.background": "#0d0d0d",
+        "statusBar.background": "#1d2021",
+        "titleBar.activeBackground": "#0d0d0d",
+        "panel.background": "#0d0d0d"
+      }
+    }
+  }
+'';
+
+
 
 
 
@@ -313,19 +418,53 @@ programs.kitty = {
   enable = true;
   settings = {
     window_padding_width = 10;
-    background_opacity = "1.0";
-    cursor_shape = "block";
-    font_family = "JetBrainsMono Nerd Font";
-    font_size = 17;
+    background_opacity   = "0.92";
+    cursor_shape         = "block";
+    font_family          = "JetBrainsMono Nerd Font";
+    font_size            = 17;
 
-    background           = "#242424";
-    foreground           = "#fbf1c7";
-    cursor               = "#fbf1c7";
-    cursor_text_color    = "#242424";
-    selection_foreground = "#fbf1c7";
-    selection_background = "#3c3836";
+    background           = "#0d0d0d";
+    foreground           = "#ebdbb2";
+    cursor               = "#d4956a";
+    cursor_text_color    = "#0d0d0d";
+    selection_foreground = "#0d0d0d";
+    selection_background = "#d4956a";
+
+    # black
+    color0  = "#1d2021";
+    color8  = "#504945";
+    # red
+    color1  = "#cc241d";
+    color9  = "#fb4934";
+    # green / lime
+    color2  = "#98971a";
+    color10 = "#b8bb26";
+    # yellow
+    color3  = "#d79921";
+    color11 = "#fabd2f";
+    # blue
+    color4  = "#458588";
+    color12 = "#83a598";
+    # magenta
+    color5  = "#b16286";
+    color13 = "#d3869b";
+    # teal/cyan — the soft blue you see on booleans
+    color6  = "#689d6a";
+    color14 = "#8ec07c";
+    # white
+    color7  = "#a89984";
+    color15 = "#ebdbb2";
   };
 };
+
+
+
+
+
+
+
+
+
 
 
 
@@ -406,16 +545,18 @@ programs.fuzzel = {
   };
 };
 
-programs.swaylock = {
-  enable = true;
-  settings = {
-    color = "fef9f0";
-    ring-color = "c2185b";
-    inside-color = "fef9f0";
-    text-color = "0a0a0a";
-    indicator-radius = 80;
-  };
-};
+
+
+#programs.swaylock = {
+ # enable = true;
+ # settings = {
+ #   color = "fef9f0";
+ #   ring-color = "c2185b";
+ #   inside-color = "fef9f0";
+ #   text-color = "0a0a0a";
+ #   indicator-radius = 80;
+ # };
+#};
 
 
 
@@ -838,6 +979,58 @@ home.file.".local/bin/screenshot-capture-wayland.sh" = {
 
 
 
+
+
+
+
+
+home.file.".config/nvim/lua/plugins/colorscheme.lua".text = ''
+  return {
+    {
+      "ellisonleao/gruvbox.nvim",
+      priority = 1000,
+      opts = {
+        contrast = "hard",
+        overrides = {
+          Normal         = { bg = "#0d0d0d" },
+          NormalNC       = { bg = "#0d0d0d" },
+          SignColumn     = { bg = "#0d0d0d" },
+          EndOfBuffer    = { bg = "#0d0d0d" },
+          NormalFloat    = { bg = "#0d0d0d" },
+          Boolean        = { fg = "#83a598", bg = "NONE" },
+          Number         = { fg = "#83a598", bg = "NONE" },
+          Float          = { fg = "#83a598", bg = "NONE" },
+          String         = { fg = "#b8bb26", bg = "NONE" },
+          ["@string"]    = { fg = "#b8bb26" },
+          ["@number"]    = { fg = "#83a598" },
+          ["@boolean"]   = { fg = "#83a598" },
+          ["@field"]     = { fg = "#d4956a" },
+          ["@property"]  = { fg = "#d4956a" },
+          ["@attribute"] = { fg = "#d4956a" },
+        },
+      },
+    },
+    {
+      "LazyVim/LazyVim",
+      opts = {
+        colorscheme = "gruvbox",
+      },
+    },
+  }
+'';
+
+
+
+
+
+
+
+
+
+
+
+
+
 home.file.".config/.emoji".text = ''
   🔥 fire hot
   💯 hundred perfect
@@ -893,13 +1086,10 @@ home.file.".config/.emoji".text = ''
 
 
 
-
-
 home.file.".config/yazi/yazi.toml" = {
   text = ''
     [mgr]
     show_hidden = true
-
     [opener]
     edit = [
         { run = 'nvim "$@"', block = true, for = "unix" },
@@ -913,30 +1103,146 @@ home.file.".config/yazi/yazi.toml" = {
     play_audio = [
         { run = 'killall -q mpv; mpv --force-window --no-resume-playback "$@"', desc = "Play Audio" }
     ]
-
+    open_pdf = [
+        { run = 'evince "$@"', orphan = true, desc = "Open PDF", for = "unix" },
+    ]
     [[opener.browser]]
     run = 'firefox "$@"'
     orphan = true
     desc = "Open in Firefox"
     for = "unix"
-
     [open]
     rules = [
         { mime = "audio/*", use = "play_audio" },
         { mime = "image/*", use = "image" },
         { mime = "text/*", use = "edit" },
         { mime = "video/*", use = [ "open" ] },
+        { mime = "application/pdf", use = "open_pdf" },
     ]
-
     [[open.prepend_rules]]
     mime = "text/html"
     use = "browser"
-
     [[open.prepend_rules]]
     mime = "application/xhtml+xml"
     use = "browser"
   '';
 };
+home.file.".config/yazi/theme.toml".text = ''
+  [manager]
+  cwd = { fg = "#b8bb26", bold = true }
+  hovered         = { fg = "#0d0d0d", bg = "#b8bb26" }
+  preview_hovered = { underline = true }
+  find_keyword  = { fg = "#b8bb26", bold = true }
+  find_position = { fg = "#d4956a", bg = "reset", bold = true }
+  marker_copied   = { fg = "#b8bb26", bg = "#b8bb26" }
+  marker_cut      = { fg = "#fb4934", bg = "#fb4934" }
+  marker_selected = { fg = "#83a598", bg = "#83a598" }
+  tab_active   = { fg = "#0d0d0d", bg = "#b8bb26", bold = true }
+  tab_inactive = { fg = "#a89984", bg = "#1d2021" }
+  tab_width    = 1
+  count_copied   = { fg = "#0d0d0d", bg = "#b8bb26" }
+  count_cut      = { fg = "#0d0d0d", bg = "#fb4934" }
+  count_selected = { fg = "#0d0d0d", bg = "#83a598" }
+  border_symbol = "│"
+  border_style  = { fg = "#504945" }
+  [status]
+  separator_open  = ""
+  separator_close = ""
+  separator_style = { fg = "#1d2021", bg = "#1d2021" }
+  mode_normal = { fg = "#0d0d0d", bg = "#b8bb26", bold = true }
+  mode_select = { fg = "#0d0d0d", bg = "#b8bb26", bold = true }
+  mode_unset  = { fg = "#0d0d0d", bg = "#83a598", bold = true }
+  progress_label  = { fg = "#ebdbb2", bold = true }
+  progress_normal = { fg = "#83a598", bg = "#1d2021" }
+  progress_error  = { fg = "#fb4934", bg = "#1d2021" }
+  permissions_t = { fg = "#d4956a" }
+  permissions_r = { fg = "#b8bb26" }
+  permissions_w = { fg = "#fb4934" }
+  permissions_x = { fg = "#83a598" }
+  permissions_s = { fg = "#504945" }
+  [input]
+  border   = { fg = "#d4956a" }
+  title    = {}
+  value    = {}
+  selected = { reversed = true }
+  [select]
+  border   = { fg = "#d4956a" }
+  active   = { fg = "#b8bb26", bold = true }
+  inactive = {}
+  [tasks]
+  border  = { fg = "#d4956a" }
+  title   = {}
+  hovered = { underline = true }
+  [which]
+  cols            = 3
+  mask            = { bg = "#1d2021" }
+  cand            = { fg = "#b8bb26" }
+  rest            = { fg = "#504945" }
+  desc            = { fg = "#ebdbb2" }
+  separator       = "  "
+  separator_style = { fg = "#504945" }
+  [notify]
+  title_info  = { fg = "#b8bb26" }
+  title_warn  = { fg = "#fabd2f" }
+  title_error = { fg = "#fb4934" }
+  [filetype]
+  rules = [
+    { mime = "image/*",         fg = "#83a598" },
+    { mime = "video/*",         fg = "#d4956a" },
+    { mime = "audio/*",         fg = "#b8bb26" },
+    { mime = "text/*",          fg = "#ebdbb2" },
+    { mime = "inode/directory", fg = "#d4956a", bold = true },
+    { name = "*.nix",           fg = "#83a598" },
+    { name = "*.rs",            fg = "#d4956a" },
+    { name = "*.py",            fg = "#fabd2f" },
+    { name = "*.sh",            fg = "#b8bb26" },
+    { name = "*.md",            fg = "#ebdbb2" },
+    { name = "*.toml",          fg = "#d4956a" },
+    { name = "*.json",          fg = "#fabd2f" },
+  ]
+'';
+
+
+
+
+
+home.file.".config/nvim/lua/plugins/lsp.lua".text = ''
+  return {
+    {
+      "mason-org/mason.nvim",
+      opts = {
+        ensure_installed = {
+          "pyright",
+          "ruff-lsp",
+          "html-lsp",
+          "css-lsp",
+          "typescript-language-server",
+          "prettier",
+          "eslint-lsp",
+        },
+      },
+    },
+    {
+      "neovim/nvim-lspconfig",
+      opts = {
+        servers = {
+          pyright = {},
+          ruff_lsp = {},
+          html = {},
+          cssls = {},
+          tsserver = {},
+        },
+      },
+    },
+  }
+'';
+
+
+
+
+
+
+
 
 
 
