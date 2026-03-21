@@ -146,7 +146,7 @@ security.pam.services.hyprlock = {};
      gpu-screen-recorder
 
 #night-light
-     wlsunset
+     hyprsunset
 
 #Task-manager
      btop

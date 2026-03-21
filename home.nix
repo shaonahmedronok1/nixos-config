@@ -83,10 +83,11 @@ wayland.windowManager.hyprland = {
       "waybar"
       "mako"
       "udiskie -t"
-      "wlsunset -l 22.84 -L 89.54 -t 4500 -T 6500"
+      "hyprsunset -t 4500"
+      #"wlsunset -l 22.84 -L 89.54 -t 4500 -T 6500"
       "wl-paste --watch cliphist store"
       "wl-clip-persist --clipboard regular"
-      "hyprlock"
+      #"hyprlock"
       #"swayidle -w timeout 300 'swaylock -f' timeout 600 'systemctl suspend' before-sleep 'swaylock -f'"
       "wlr-randr --output HDMI-A-2 --mode 1280x1024@75.004997"
       "swww-daemon"
@@ -584,13 +585,18 @@ home.file.".config/waybar/config.jsonc" = {
         "on-click": "playerctl play-pause",
         "max-length": 30
       },
-      "custom/nightlight": {
-        "format": "{}",
-        "exec": "if pgrep -x wlsunset > /dev/null; then echo '󰛨'; else echo '󰛩'; fi",
-        "interval": 3,
-        "on-click": "bash ~/.local/bin/wlsunset-toggle.sh",
-        "tooltip-format": "Night light toggle"
-      },
+      
+
+"custom/nightlight": {
+  "format": "{}",
+  "exec": "if pgrep -x hyprsunset > /dev/null; then echo '󰛨'; else echo '󰛩'; fi",
+  "interval": 2,
+  "on-click": "bash ~/.local/bin/wlsunset-toggle.sh",
+  "signal": 8,
+  "tooltip-format": "Night light toggle"
+},
+
+
       "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-muted": "󰝟 muted",
@@ -1263,12 +1269,13 @@ home.file.".config/nvim/lua/plugins/lsp.lua".text = ''
 home.file.".local/bin/wlsunset-toggle.sh" = {
   executable = true;
   text = ''
-    #!/bin/bash
-    if pgrep -x wlsunset > /dev/null; then
-      pkill wlsunset
-    else
-      wlsunset -l 22.84 -L 89.54 -t 4500 -T 6500 &
-    fi
+  #!/bin/bash
+if pgrep -x hyprsunset > /dev/null; then
+  pkill hyprsunset
+else
+  hyprsunset -t 4500 &
+fi
+pkill -RTMIN+8 waybar
   '';
 };
 
