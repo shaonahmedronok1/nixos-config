@@ -8,7 +8,6 @@
 [![Home Manager](https://img.shields.io/badge/Home_Manager-25.11-c2185b?style=for-the-badge)](https://nix-community.github.io/home-manager/)
 
 *Everything declared. Nothing manual. Reproducible from scratch with one rebuild.*
-
 </div>
 
 ---
@@ -21,29 +20,31 @@
 |---|---|
 | **OS** | NixOS 25.11 |
 | **WM** | Hyprland (Wayland) |
-| **Terminal** | Ghostty + Alacritty |
+| **Terminal** | Ghostty + Kitty |
 | **Shell** | Bash + Starship |
-| **Editor** | Neovim |
-| **Browser** | Chromium |
+| **Editor** | Neovim + LazyVim |
+| **Browser** | Chromium + LibreWolf |
 | **Launcher** | Fuzzel |
 | **Bar** | Waybar |
 | **Notifications** | Mako |
 | **Clipboard** | cliphist + wl-clipboard |
-| **Screen Lock** | Swaylock |
-| **Idle Daemon** | Swayidle |
+| **Screen Lock** | Hyprlock |
+| **Idle Daemon** | Hypridle |
 | **Warm Light** | Wlsunset |
+| **Theme** | Gruvbox Hard Dark |
+| **Font** | JetBrainsMono Nerd Font |
 
 ---
 
 ## 🌺 Structure
-
 ```
 nixos-config/
 ├── flake.nix                  ← entry point, versions pinned
 ├── flake.lock                 ← exact version snapshot, never touch
 ├── configuration.nix          ← system-level declaration
 ├── home.nix                   ← Home Manager user config, all dotfiles
-└── hardware-configuration.nix ← machine-specific, regenerate fresh on new PC
+├── hardware-configuration.nix ← machine-specific, regenerate fresh on new PC
+└── assets/                    ← wallpapers and design assets
 ```
 
 ---
@@ -85,6 +86,13 @@ sudo nixos-rebuild switch --flake /etc/nixos#nixos
 - `~/.config` is entirely symlinks to `/nix/store/` — never edited directly.
 - `hardware-configuration.nix` is machine-specific — always regenerate fresh.
 - `flake.lock` is committed — guarantees identical rebuild anywhere, anytime.
+
+---
+
+## 🎨 Assets
+
+Wallpaper design by Shaon Ahmed Ronok.
+Based on the NixOS logo (nixos.org), used under CC BY 4.0.
 
 ---
 
