@@ -185,7 +185,7 @@ wayland.windowManager.hyprland = {
 
       # Apps
       "$mod, Space, exec, fuzzel"
-      "$mod, B, exec, chromium"
+      "$mod, B, exec, google-chrome-stable"
       "$mod, E, exec, nautilus"
 
       # Window management
@@ -463,8 +463,6 @@ programs.kitty = {
 
 
 
-
-
 services.mako = {
   enable = true;
   settings = {
@@ -473,11 +471,15 @@ services.mako = {
     border-color = "#c2185b";
     border-size = 2;
     border-radius = 6;
+    default-timeout = 11000;
+    ignore-timeout = 0;
+    width = 400;
+    height = 120;
+    font = "JetBrainsMono Nerd Font 13";
+    padding = "12";
+    margin = "10";
   };
 };
-
-
-
 
 
 
