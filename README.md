@@ -20,17 +20,17 @@
 |---|---|
 | **OS** | NixOS 25.11 |
 | **WM** | Hyprland (Wayland) |
-| **Terminal** | Ghostty + Kitty |
+| **Terminal** | Kitty |
 | **Shell** | Bash + Starship |
 | **Editor** | Neovim + LazyVim |
-| **Browser** | Chromium + LibreWolf |
+| **Browser** | Google Chrome & others |
 | **Launcher** | Fuzzel |
 | **Bar** | Waybar |
 | **Notifications** | Mako |
 | **Clipboard** | cliphist + wl-clipboard |
 | **Screen Lock** | Hyprlock |
 | **Idle Daemon** | Hypridle |
-| **Warm Light** | Wlsunset |
+| **Warm Light** | hyprsunset |
 | **Theme** | Gruvbox Hard Dark |
 | **Font** | JetBrainsMono Nerd Font |
 
