@@ -127,6 +127,9 @@ security.pam.services.hyprlock = {};
      udisks2
      udiskie
      gnome-disk-utility
+     kdePackages.qqc2-desktop-style
+     kdePackages.qtstyleplugin-kvantum
+     adwaita-qt
      unzip
      p7zip
 
@@ -135,6 +138,7 @@ security.pam.services.hyprlock = {};
 
 #notification
      mako
+     libnotify
 
 #screenshort
      slurp
@@ -218,6 +222,15 @@ security.pam.services.hyprlock = {};
      hyprpicker
      tree-sitter
      wev
+       gruvbox-plus-icons
+  (gruvbox-gtk-theme.override {
+    colorVariants = ["dark"];
+    sizeVariants = ["standard"];
+    themeVariants = ["green"];
+    tweakVariants = ["medium" "macos"];
+  })
+  gtk3
+  gtk4
      git
  ];
 
@@ -288,6 +301,20 @@ zramSwap.enable = true;
 security.rtkit.enable = true;
 networking.firewall.enable = true;
 
+
+
+
+
+
+
+
+programs.dconf.enable = true;
+
+# --- THE DARK COMMAND CENTER ---
+  environment.variables = {
+    # This tells Dolphin/Qt: "Don't be white, talk to the GTK theme!"
+    QT_QPA_PLATFORMTHEME = "gtk2";
+  };
 
 
 xdg.portal = {

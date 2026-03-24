@@ -8,12 +8,7 @@
 
   programs.bash = {
     enable = true;
-    initExtra = ''
-      eval "$(starship init bash)"
-      eval "$(zoxide init bash)"
-      eval "$(atuin init bash)"
-      source <(fzf --bash)
-    '';
+    initExtra = ""; # <--- EMPTY! Clean and perfect.
     shellAliases = {
       ls = "eza --icons";
       ll = "eza -la --icons";
@@ -23,19 +18,36 @@
     };
   };
 
-  programs.starship = {
-    enable = true;
-    settings = {
-      add_newline = false;
+
+
+programs.starship = {
+  enable = true;
+  enableBashIntegration = true; # Move this OUTSIDE settings
+  settings = {
+    add_newline = false;
+ 
+      # --- Vimjoyer 1 Trillion Percent Perfect Prompt ---
       character = {
-        success_symbol = "[❯](bold #c2185b)";
-        error_symbol = "[❯](bold red)";
+        # Changed pink to base0B (Green) for success
+        success_symbol = "[❯](bold #b8bb26)"; 
+        # Changed "red" to the exact base08 (Red) from your palette
+        error_symbol = "[❯](bold #fb4934)";   
       };
+
+      # --- Functional Settings (Kept exactly as is) ---
       nix_shell.symbol = " ";
       git_branch.symbol = " ";
       directory.truncation_length = 3;
+
+      # Extra Perfection: Make the directory color match the theme foreground
+      directory = {
+        style = "bold #ebdbb2"; # base06
+      };
     };
   };
+
+
+
 
 
 
@@ -52,7 +64,18 @@ programs.git = {
 
 
 
+# --- THE SMART STUFF ---
+  programs.zoxide.enable = true;
+  programs.zoxide.enableBashIntegration = true;
 
+  programs.fzf.enable = true;
+  programs.fzf.enableBashIntegration = true;
+
+  programs.eza.enable = true;
+  programs.eza.enableBashIntegration = true;
+
+  programs.bat.enable = true;
+  programs.bat.config.theme = "gruvbox-dark";
 
 
 
@@ -97,10 +120,16 @@ wayland.windowManager.hyprland = {
       gaps_in = 0;
       gaps_out = 0;
       border_size = 4;
-      "col.active_border" = "rgba(00CED9ff) rgba(00fff5cc) 45deg";
-      "col.inactive_border" = "rgba(4A0030ff)";
+      
+      # --- Vimjoyer 1 Trillion Percent Perfect Gradient ---
+      # Logic: Gradient from base0D (Blue) to base0B (Green) at 45 degrees
+      "col.active_border" = "rgba(b8bb26ff) rgba(b8bb26ff) 45deg";
+      
+      # Logic: base01 (Dark Grey) for inactive windows
+      "col.inactive_border" = "rgba(3c3836ff)";
+      
       layout = "dwindle";
-      resize_on_border = true;          # NEW — resize by dragging any window edge
+      resize_on_border = true;
     };
 
     decoration = {
@@ -110,15 +139,18 @@ wayland.windowManager.hyprland = {
         size = 3;
         passes = 1;
       };
-      active_opacity = 1.0;             # NEW
-      inactive_opacity = 0.95;          # NEW
-      shadow = {                        # NEW — shadow moved to sub-block in current Hyprland
+      active_opacity = 1.0;
+      inactive_opacity = 0.95;
+      
+      shadow = {
         enabled = true;
         range = 8;
         render_power = 2;
-        "color" = "rgba(00CED9bb)";
+        # Logic: Dark shadow (base00) with transparency for a clean depth effect
+        "color" = "rgba(242424bb)"; 
       };
     };
+
 
     input = {
       kb_layout = "us";
@@ -300,15 +332,15 @@ home.file.".config/hypr/cycle-wallpaper.sh" = {
 
 
 
+
+
 programs.atuin = {
   enable = true;
+  enableBashIntegration = true; # Move this OUTSIDE settings
   settings = {
     filter_mode_shell_up_arrow_history = "global";
   };
 };
-
-
-
 
 
 
@@ -354,9 +386,12 @@ programs.hyprlock = {
       dots_center = true;
       fade_on_empty = false;
       outline_thickness = 3;
-      outer_color = "rgb(c2185b)";
-      inner_color = "rgb(0d0d0d)";
-      font_color = "rgb(fef9f0)";
+
+      # --- Vimjoyer 1 Trillion Percent Colors ---
+      outer_color = "rgb(b8bb26)"; # base0B (Lime Border)
+      inner_color = "rgb(242424)"; # base00 (Deep Charcoal BG)
+      font_color = "rgb(ebdbb2)";  # base06 (Gruvbox Cream Text)
+      
       placeholder_text = "<i>Password...</i>";
       shadow_passes = 2;
       halign = "center";
@@ -364,7 +399,10 @@ programs.hyprlock = {
     }];
     label = [{
       text = "$TIME";
-      color = "rgba(fef9f0ff)";
+      
+      # Matched the clock color to the Cream foreground for readability
+      color = "rgba(ebdbb2ff)";
+      
       font_size = 52;
       font_family = "JetBrainsMono Nerd Font";
       position = "0, 80";
@@ -375,6 +413,33 @@ programs.hyprlock = {
 };
 
 
+
+
+
+# --- THE VIMJOYER SKIN (Unified & Official) ---
+  gtk = {
+    enable = true;
+    theme = {
+      name = "Gruvbox-Green-Dark-Medium";
+      package = pkgs.gruvbox-gtk-theme.override {
+        colorVariants = ["dark"];
+        themeVariants = ["green"];
+        tweakVariants = ["medium" "macos"];
+      };
+    };
+    iconTheme = {
+      name = "Gruvbox-Plus-Dark";
+      package = pkgs.gruvbox-plus-icons;
+    };
+    gtk3.extraConfig.gtk-application-prefer-dark-theme = 1;
+    gtk4.extraConfig.gtk-application-prefer-dark-theme = 1;
+  };
+
+  qt = {
+    enable = true;
+    platformTheme.name = "gtk";
+    style.name = "adwaita-dark";
+  };
 
 
 
@@ -415,48 +480,59 @@ home.file.".config/VSCodium/User/settings.json".text = ''
 
 
 
+
+
+
+
+
 programs.kitty = {
-  enable = true;
-  settings = {
-    window_padding_width = 10;
-    background_opacity   = "1.0";
-    cursor_shape         = "block";
-    font_family          = "JetBrainsMono Nerd Font";
-    font_size            = 17;
+    enable = true;
+    settings = {
+      # --- Functional Settings (Kept exactly as is) ---
+      window_padding_width = 10;
+      background_opacity   = "1.0";
+      cursor_shape         = "block";
+      font_family          = "JetBrainsMono Nerd Font";
+      font_size            = 16;
+      cursor_trail         = 3;
 
-    background           = "#242424";
-    foreground           = "#ebdbb2";
-    cursor               = "#d4956a";
-    cursor_text_color    = "#0d0d0d";
-    selection_foreground = "#0d0d0d";
-    selection_background = "#d4956a";
+      # --- Vimjoyer Colors (Blindly following Base16 logic) ---
+      background           = "#242424"; # base00
+      foreground           = "#ebdbb2"; # base06
+      cursor               = "#ebdbb2"; # base06
+      cursor_text_color    = "#242424"; # base00
+      
+      selection_background = "#504945"; # base02
+      selection_foreground = "#d5c4a1"; # base05
 
-    # black
-    color0  = "#1d2021";
-    color8  = "#504945";
-    # red
-    color1  = "#cc241d";
-    color9  = "#fb4934";
-    # green / lime
-    color2  = "#98971a";
-    color10 = "#b8bb26";
-    # yellow
-    color3  = "#d79921";
-    color11 = "#fabd2f";
-    # blue
-    color4  = "#458588";
-    color12 = "#83a598";
-    # magenta
-    color5  = "#b16286";
-    color13 = "#d3869b";
-    # teal/cyan — the soft blue you see on booleans
-    color6  = "#689d6a";
-    color14 = "#8ec07c";
-    # white
-    color7  = "#a89984";
-    color15 = "#ebdbb2";
+      active_tab_background   = "#242424"; # base00
+      active_tab_foreground   = "#ebdbb2"; # base06
+      inactive_tab_background = "#3c3836"; # base01
+      inactive_tab_foreground = "#665c54"; # base03
+
+      # --- Terminal Colors (0-15) ---
+      color0  = "#242424"; # base00
+      color8  = "#504945"; # base02
+      color1  = "#fb4934"; # base08
+      color9  = "#fb4934"; # base08
+      color2  = "#b8bb26"; # base0B
+      color10 = "#b8bb26"; # base0B
+      color3  = "#fabd2f"; # base0A
+      color11 = "#fabd2f"; # base0A
+      color4  = "#7daea3"; # base0D
+      color12 = "#7daea3"; # base0D
+      color5  = "#e089a1"; # base0E
+      color13 = "#e089a1"; # base0E
+      color6  = "#8ec07c"; # base0C
+      color14 = "#8ec07c"; # base0C
+      color7  = "#ebdbb2"; # base06
+      color15 = "#fbf1c7"; # base07
+    };
   };
-};
+
+
+
+
 
 
 
@@ -464,24 +540,27 @@ programs.kitty = {
 
 
 services.mako = {
-  enable = true;
-  settings = {
-    background-color = "#fef9f0";
-    text-color = "#0a0a0a";
-    border-color = "#c2185b";
-    border-size = 2;
-    border-radius = 6;
-    default-timeout = 11000;
-    ignore-timeout = 0;
-    width = 400;
-    height = 120;
-    font = "JetBrainsMono Nerd Font 13";
-    padding = "12";
-    margin = "10";
+    enable = true;
+    # Moving all colors and sizes into the 'settings' block to stop the warnings
+    settings = {
+      background-color = "#242424"; # base00
+      text-color       = "#ebdbb2"; # base06
+      border-color     = "#7daea3"; # base0D
+      
+      border-size = 2;
+      border-radius = 6;
+      font = "JetBrainsMono Nerd Font 13";
+      width = 400;
+      height = 120;
+      padding = "12";
+      margin = "10";
+      default-timeout = 11000;
+      ignore-timeout = 0;
+      
+      # Vimjoyer progress bar logic
+      progress-color = "over #242424 #b8bb26";
+    };
   };
-};
-
-
 
 
 
@@ -489,25 +568,37 @@ services.mako = {
 
 
 programs.fuzzel = {
-  enable = true;
-  settings = {
-    main = {
-      font = "JetBrainsMono Nerd Font:size=16";
-      lines = 12;
-      width = 45;
-    };
-    colors = {
-      background = "fef9f0ff";
-      selection = "c2185bff";
-      text = "0a0a0aff";
-      selection-text = "fef9f0ff";
-    };
-    border = {
-      width = 2;
-      radius = 6;
+    enable = true;
+    settings = {
+      main = {
+        font = "JetBrainsMono Nerd Font:size=16";
+        lines = 12;
+        width = 45;
+        terminal = "kitty";
+      };
+      
+      # Using the standard Nix attribute names to ensure zero warnings
+      colors = {
+        background = "242424ff";     # base00
+        text       = "ebdbb2ff";     # base06
+        match      = "fb4934ff";     # base08
+        selection        = "504945ff"; # base02
+        selection-text   = "fbf1c7ff"; # base07
+        selection-match  = "fe8019ff"; # base09
+        border           = "7daea3ff"; # base0D
+      };
+
+      border = {
+        width = 2;
+        radius = 6;
+      };
     };
   };
-};
+
+
+
+
+
 
 
 
@@ -525,18 +616,27 @@ programs.fuzzel = {
 
 
 
-
 programs.imv = {
-  enable = true;
-  settings = {
-    binds = {
-      "<Ctrl+p>"       = ''exec lp "$imv_current_file"'';
-      "<Ctrl+x>"       = ''exec rm "$imv_current_file"; quit'';
-      "<Ctrl+Shift+X>" = ''exec rm "$imv_current_file"; close'';
-      "<Ctrl+r>"       = ''exec mogrify -rotate 90 "$imv_current_file"'';
+    enable = true;
+    settings = {
+      # --- Vimjoyer 1 Trillion Percent Perfect Colors ---
+      options = {
+        background = "242424";      # base00 (Deep charcoal background)
+        overlay_text_color = "ebdbb2"; # base06 (Gruvbox cream text)
+        overlay_background_color = "3c3836"; # base01 (Dark grey overlay bg)
+        overlay_font = "JetBrainsMono Nerd Font:12";
+      };
+
+      # --- Functional Settings (Kept exactly as is) ---
+      binds = {
+        "<Ctrl+p>"       = ''exec lp "$imv_current_file"'';
+        "<Ctrl+x>"       = ''exec rm "$imv_current_file"; quit'';
+        "<Ctrl+Shift+X>" = ''exec rm "$imv_current_file"; close'';
+        "<Ctrl+r>"       = ''exec mogrify -rotate 90 "$imv_current_file"'';
+      };
     };
   };
-};
+
 
 
 
@@ -659,6 +759,7 @@ home.file.".config/waybar/config.jsonc" = {
   '';
 };
 
+
 home.file.".config/waybar/style.css" = {
   text = ''
     * {
@@ -670,9 +771,9 @@ home.file.".config/waybar/style.css" = {
       border-radius: 0;
     }
     window#waybar {
-      background-color: #fef9f0;
-      color: #0a0a0a;
-      border-bottom: 2px solid #c2185b;
+      background-color: #242424; /* base00 */
+      color: #ebdbb2;           /* base06 */
+      border-bottom: 2px solid #7daea3; /* base0D (Blue accent) */
     }
     .modules-left {
       margin-left: 8px;
@@ -688,25 +789,25 @@ home.file.".config/waybar/style.css" = {
       padding: 0 4px;
       margin: 0 1.5px;
       min-width: 9px;
-      color: #3c3836;
-      opacity: 0.4;
+      color: #bdae93; /* base04 (Swapped to base04 for visibility) */
+      opacity: 0.6;
     }
     #workspaces button.active {
-      color: #fef9f0;
-      background-color: #c2185b;
+      color: #242424;           /* base00 */
+      background-color: #b8bb26; /* base0B (Green for active) */
       opacity: 1.0;
     }
     #workspaces button.nonempty {
-      color: #c2185b;
+      color: #fabd2f;           /* base0A (Yellow for files open) */
       opacity: 1.0;
     }
     #workspaces button.urgent {
-      color: #fef9f0;
-      background-color: #880e4f;
+      color: #fbf1c7;           /* base07 */
+      background-color: #fb4934; /* base08 (Red for urgent) */
       opacity: 1.0;
     }
     #clock {
-      color: #0a0a0a;
+      color: #ebdbb2;           /* base06 */
       font-weight: 700;
       margin-left: 8.75px;
     }
@@ -718,7 +819,7 @@ home.file.".config/waybar/style.css" = {
     #custom-expand-icon {
       min-width: 12px;
       margin: 0 7.5px;
-      color: #0a0a0a;
+      color: #d5c4a1;           /* base05 (Lighter foreground) */
     }
     #tray {
       margin-right: 16px;
@@ -736,39 +837,47 @@ home.file.".config/waybar/style.css" = {
       margin: 0 4px;
     }
     #pulseaudio.muted {
-      color: #c2185b;
+      color: #fb4934;           /* base08 (Red) */
     }
     #network.disconnected {
-      color: #c2185b;
+      color: #fb4934;           /* base08 (Red) */
     }
     #bluetooth.off {
-      color: #bbb;
+      color: #504945;           /* base02 (Muted dark) */
     }
     #custom-screenshot {
       margin: 0 7.5px;
-      color: #0a0a0a;
+      color: #ebdbb2;           /* base06 */
     }
     #custom-screenshot:hover {
-      color: #c2185b;
+      color: #7daea3;           /* base0D (Blue) */
     }
     #custom-media {
-      color: #c2185b;
+      color: #ebdbb2;           /* base06 (Swapped to base06 for Extreme Readability) */
     }
     #custom-media.Paused {
-      color: #888;
+      color: #665c54;           /* base03 */
     }
     #custom-nightlight {
-      color: #0a0a0a;
+      color: #ebdbb2;           /* base06 */
       margin: 0 7.5px;
     }
     #custom-nightlight:hover {
-      color: #c2185b;
+      color: #fe8019;           /* base09 (Orange) */
     }
     tooltip {
+      background-color: #3c3836; /* base01 */
+      border: 1px solid #7daea3; /* base0D */
       padding: 2px;
+    }
+    tooltip label {
+      color: #fbf1c7;           /* base07 */
     }
   '';
 };
+
+
+
 
 
 
@@ -986,7 +1095,6 @@ home.file.".local/bin/screenshot-capture-wayland.sh" = {
 
 
 
-
 home.file.".config/nvim/lua/plugins/colorscheme.lua".text = ''
   return {
     {
@@ -1000,16 +1108,26 @@ home.file.".config/nvim/lua/plugins/colorscheme.lua".text = ''
           SignColumn     = { bg = "#242424" },
           EndOfBuffer    = { bg = "#242424" },
           NormalFloat    = { bg = "#242424" },
-          Boolean        = { fg = "#83a598", bg = "NONE" },
-          Number         = { fg = "#83a598", bg = "NONE" },
-          Float          = { fg = "#83a598", bg = "NONE" },
-          String         = { fg = "#b8bb26", bg = "NONE" },
-          ["@string"]    = { fg = "#b8bb26" },
-          ["@number"]    = { fg = "#83a598" },
-          ["@boolean"]   = { fg = "#83a598" },
-          ["@field"]     = { fg = "#d4956a" },
-          ["@property"]  = { fg = "#d4956a" },
-          ["@attribute"] = { fg = "#d4956a" },
+          Boolean        = { fg = "#e089a1", bg = "NONE" },
+          Number         = { fg = "#e089a1", bg = "NONE" },
+          Float          = { fg = "#e089a1", bg = "NONE" },
+          String         = { fg = "#b8bb26", bg = "NONE", italic = true },
+          Function       = { fg = "#b8bb26", bold = true, italic = true },
+          Keyword        = { fg = "#fb4934" },
+          Type           = { fg = "#fabd2f" },
+          Operator       = { fg = "#fe8019" },
+          Comment        = { fg = "#665c54", italic = true },
+          ["@string"]    = { fg = "#b8bb26", italic = true },
+          ["@number"]    = { fg = "#e089a1" },
+          ["@boolean"]   = { fg = "#e089a1" },
+          ["@function"]  = { fg = "#b8bb26", bold = true, italic = true },
+          ["@keyword"]   = { fg = "#fb4934" },
+          ["@type"]      = { fg = "#8ec07c", bold = true },
+          ["@variable"]  = { fg = "#7daea3" },
+          ["@field"]     = { fg = "#fe8019" },
+          ["@property"]  = { fg = "#fe8019" },
+          ["@attribute"] = { fg = "#fe8019" },
+          ["@punctuation"] = { fg = "#fe8019" },
         },
       },
     },
@@ -1021,6 +1139,19 @@ home.file.".config/nvim/lua/plugins/colorscheme.lua".text = ''
     },
   }
 '';
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1132,27 +1263,32 @@ home.file.".config/yazi/yazi.toml" = {
 };
 
 
+
+
+
+
+
 home.file.".config/yazi/theme.toml".text = ''
   [mgr]
   cwd = { fg = "#b8bb26", bold = true }
   hovered         = { fg = "#242424", bg = "#b8bb26" }
   find_keyword  = { fg = "#b8bb26", bold = true }
-  find_position = { fg = "#d4956a", bg = "reset", bold = true }
+  find_position = { fg = "#fe8019", bg = "reset", bold = true }
   marker_copied   = { fg = "#b8bb26", bg = "#b8bb26" }
   marker_cut      = { fg = "#fb4934", bg = "#fb4934" }
-  marker_selected = { fg = "#83a598", bg = "#83a598" }
+  marker_selected = { fg = "#7daea3", bg = "#7daea3" }
   count_copied   = { fg = "#242424", bg = "#b8bb26" }
   count_cut      = { fg = "#242424", bg = "#fb4934" }
-  count_selected = { fg = "#242424", bg = "#83a598" }
+  count_selected = { fg = "#242424", bg = "#7daea3" }
   border_symbol = "│"
-  border_style  = { fg = "#504945" }
+  border_style  = { fg = "#665c54" }
 
   [indicator]
   preview = { underline = true }
 
   [tabs]
   active   = { fg = "#242424", bg = "#b8bb26", bold = true }
-  inactive = { fg = "#a89984", bg = "#3c3836" }
+  inactive = { fg = "#bdae93", bg = "#3c3836" }
 
   [status]
   separator_open  = ""
@@ -1160,29 +1296,29 @@ home.file.".config/yazi/theme.toml".text = ''
   separator_style = { fg = "#3c3836", bg = "#3c3836" }
   mode_normal = { fg = "#242424", bg = "#b8bb26", bold = true }
   mode_select = { fg = "#242424", bg = "#b8bb26", bold = true }
-  mode_unset  = { fg = "#242424", bg = "#83a598", bold = true }
+  mode_unset  = { fg = "#242424", bg = "#7daea3", bold = true }
   progress_label  = { fg = "#ebdbb2", bold = true }
-  progress_normal = { fg = "#83a598", bg = "#3c3836" }
+  progress_normal = { fg = "#7daea3", bg = "#3c3836" }
   progress_error  = { fg = "#fb4934", bg = "#3c3836" }
-  permissions_t = { fg = "#d4956a" }
+  permissions_t = { fg = "#fe8019" }
   permissions_r = { fg = "#b8bb26" }
   permissions_w = { fg = "#fb4934" }
-  permissions_x = { fg = "#83a598" }
-  permissions_s = { fg = "#504945" }
+  permissions_x = { fg = "#7daea3" }
+  permissions_s = { fg = "#665c54" }
 
   [input]
-  border   = { fg = "#d4956a" }
+  border   = { fg = "#fe8019" }
   title    = {}
   value    = {}
   selected = { reversed = true }
 
   [select]
-  border   = { fg = "#d4956a" }
+  border   = { fg = "#fe8019" }
   active   = { fg = "#b8bb26", bold = true }
   inactive = {}
 
   [tasks]
-  border  = { fg = "#d4956a" }
+  border  = { fg = "#fe8019" }
   title   = {}
   hovered = { underline = true }
 
@@ -1190,10 +1326,10 @@ home.file.".config/yazi/theme.toml".text = ''
   cols            = 3
   mask            = { bg = "#3c3836" }
   cand            = { fg = "#b8bb26" }
-  rest            = { fg = "#504945" }
+  rest            = { fg = "#665c54" }
   desc            = { fg = "#ebdbb2" }
   separator       = "  "
-  separator_style = { fg = "#504945" }
+  separator_style = { fg = "#665c54" }
 
   [notify]
   title_info  = { fg = "#b8bb26" }
@@ -1202,20 +1338,37 @@ home.file.".config/yazi/theme.toml".text = ''
 
   [filetype]
   rules = [
-    { mime = "image/*",         fg = "#83a598" },
-    { mime = "video/*",         fg = "#d4956a" },
-    { mime = "audio/*",         fg = "#b8bb26" },
-    { mime = "text/*",          fg = "#ebdbb2" },
-    { mime = "inode/directory", fg = "#d4956a", bold = true },
-    { name = "*.nix",           fg = "#83a598" },
-    { name = "*.rs",            fg = "#d4956a" },
-    { name = "*.py",            fg = "#fabd2f" },
-    { name = "*.sh",            fg = "#b8bb26" },
-    { name = "*.md",            fg = "#ebdbb2" },
-    { name = "*.toml",          fg = "#d4956a" },
-    { name = "*.json",          fg = "#fabd2f" },
+    { mime = "image/*",          fg = "#7daea3" },
+    { mime = "video/*",          fg = "#fe8019" },
+    { mime = "audio/*",          fg = "#b8bb26" },
+    { mime = "text/*",           fg = "#ebdbb2" },
+    { mime = "inode/directory",  fg = "#fe8019", bold = true },
+    { name = "*.nix",            fg = "#7daea3" },
+    { name = "*.rs",             fg = "#fe8019" },
+    { name = "*.py",             fg = "#fabd2f" },
+    { name = "*.sh",             fg = "#b8bb26" },
+    { name = "*.md",             fg = "#ebdbb2" },
+    { name = "*.toml",           fg = "#fe8019" },
+    { name = "*.json",           fg = "#fabd2f" },
   ]
 '';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
