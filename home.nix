@@ -78,6 +78,112 @@ programs.git = {
   programs.bat.config.theme = "gruvbox-dark";
 
 
+programs.btop = {
+    enable = true;
+    settings = {
+      # --- The Vimjoyer Color Engine ---
+      color_theme = "tty";          # Vital: Let your terminal colors take over
+      theme_background = false;     # Transparent background
+      truecolor = true;
+      force_tty = false;
+
+      # --- Manual Hex Colors (Vimjoyer Palette) ---
+      # Matches Starship: #b8bb26 (Success) and #fb4934 (Error)
+      low_gradient_color = "#b8bb26";  # Green
+      mid_gradient_color = "#fabd2f";  # Yellow
+      high_gradient_color = "#fb4934"; # Red
+      
+      # --- Your Specific Layout & UI ---
+      shown_boxes = "cpu net proc";
+      update_ms = 2000;
+      presets = "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty";
+      vim_keys = true;
+      rounded_corners = true;
+      graph_symbol = "braille";
+      proc_sorting = "cpu lazy";
+      proc_colors = true;
+      proc_gradient = true;
+      proc_mem_bytes = true;
+      proc_cpu_graphs = true;
+      base_10_sizes = true; # Technical accuracy: KB = 1000
+    };
+  };
+
+
+
+
+programs.mpv = {
+    enable = true;
+    
+    # --- The Performance & Logic Engine ---
+    config = {
+      # --- Low-Spec Intel HD 530 Optimization ---
+      profile = "fast";
+      vo = "gpu";
+      hwdec = "vaapi";
+      gpu-api = "opengl";
+      
+      # --- Functional Logic ---
+      save-position-on-quit = true;
+      osc = false;
+      border = false;
+      cursor-autohide = 1000;
+
+      # --- Language & yt-dlp Subtitle Automation ---
+      slang = "en,eng,enUS,enGB,enAU,enNZ,enCA,enIE,enZA";
+      ytdl-raw-options = "ignore-config=,sub-langs=\"en.*,^en\",write-subs=,write-auto-subs=";
+
+      # --- Official Subtitle Styling (Vimjoyer Visuals) ---
+      sub-visibility = "yes";
+      sub-auto = "fuzzy";
+      sub-font = "JetBrainsMono Nerd Font Mono";
+      sub-font-size = 33;
+      sub-color = "#ebdbb2";        # base06 (Vimjoyer FG - Better than pure #FFFFFF)
+      sub-border-size = 3;
+      sub-border-color = "#242424"; # base00 (Vimjoyer BG - Better than pure #000000)
+      sub-shadow-offset = 1;
+      sub-shadow-color = "#24242440"; # base00 with 40% alpha
+      sub-pos = 98;
+      sub-align-y = "bottom";
+      sub-margin-y = 20;
+
+      # --- OSD Styling (Matches your Terminal) ---
+      osd-font = "JetBrainsMono Nerd Font";
+      osd-font-size = 28;
+      osd-color = "#ebdbb2";        # base06
+      osd-border-color = "#242424"; # base00
+    };
+
+
+# --- The Home-Row Control Center ---
+    bindings = {
+      # --- Nav & Volume ---
+      "l" = "seek 5";
+      "h" = "seek -5";
+      "k" = "add volume 2";
+      "j" = "add volume -2";
+      
+      # --- Playback Controls ---
+      "f" = "cycle fullscreen";
+      "SPACE" = "cycle pause";
+      "s" = "screenshot";
+      "S" = "cycle sub";
+      "v" = "cycle sub-visibility";
+
+      # --- Precision Speed Controls (0.1 Steps) ---
+      "]" = "add speed 0.1";        # 1.1, 1.2, 1.3...
+      "[" = "add speed -0.1";       # ...down to 0.1
+      "BS" = "set speed 1.0";       # Backspace: Reset to normal speed
+      
+      # --- System Controls ---
+      "q" = "quit";
+      "Q" = "quit-watch-later";     # Force save and quit
+    };
+  };
+
+
+
+
 
 
 
