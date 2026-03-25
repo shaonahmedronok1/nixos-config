@@ -13,9 +13,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, stylix, ... }: {
+  outputs = { self, nixpkgs, home-manager, stylix, ... }:
+  let
+    themeLib = import ./theme.nix;
+  in {
     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
+      specialArgs = { inherit (themeLib) theme themeNoHash; };
       modules = [
         ./hardware-configuration.nix
         ./modules/nixos/hosts/az-pc/configuration.nix
@@ -27,6 +31,7 @@
             useUserPackages = true;
             users.az = import ./modules/home;
             backupFileExtension = "backup";
+            extraSpecialArgs = { inherit (themeLib) theme themeNoHash; };
           };
         }
       ];

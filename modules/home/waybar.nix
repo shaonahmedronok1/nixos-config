@@ -1,4 +1,4 @@
-{ ... }:
+{ theme, themeNoHash, ... }:
 {
   home.file.".config/waybar/config.jsonc" = {
     text = ''
@@ -123,9 +123,9 @@
         border-radius: 0;
       }
       window#waybar {
-        background-color: #242424;
-        color: #ebdbb2;
-        border-bottom: 2px solid #7daea3;
+        background-color: ${theme.base00};
+        color: ${theme.base06};
+        border-bottom: 2px solid ${theme.base0D};
       }
       .modules-left  { margin-left:  8px; }
       .modules-right { margin-right: 8px; }
@@ -137,25 +137,25 @@
         padding: 0 4px;
         margin: 0 1.5px;
         min-width: 9px;
-        color: #bdae93;
+        color: ${theme.base04};
         opacity: 0.6;
       }
       #workspaces button.active {
-        color: #242424;
-        background-color: #b8bb26;
+        color: ${theme.base00};
+        background-color: ${theme.base0B};
         opacity: 1.0;
       }
       #workspaces button.nonempty {
-        color: #fabd2f;
+        color: ${theme.base0A};
         opacity: 1.0;
       }
       #workspaces button.urgent {
-        color: #fbf1c7;
-        background-color: #fb4934;
+        color: ${theme.base07};
+        background-color: ${theme.base08};
         opacity: 1.0;
       }
       #clock {
-        color: #ebdbb2;
+        color: ${theme.base06};
         font-weight: 700;
         margin-left: 8.75px;
       }
@@ -167,34 +167,34 @@
       #custom-expand-icon {
         min-width: 12px;
         margin: 0 7.5px;
-        color: #d5c4a1;
+        color: ${theme.base05};
       }
-      #tray              { margin-right: 16px; }
-      #bluetooth         { margin-right: 17px; }
-      #network           { margin-right: 13px; }
+      #tray               { margin-right: 16px; }
+      #bluetooth          { margin-right: 17px; }
+      #network            { margin-right: 13px; }
       #custom-expand-icon { margin-right: 18px; }
-      .tray-group-item   { margin: 0 4px; }
-      #pulseaudio.muted        { color: #fb4934; }
-      #network.disconnected    { color: #fb4934; }
-      #bluetooth.off           { color: #504945; }
+      .tray-group-item    { margin: 0 4px; }
+      #pulseaudio.muted       { color: ${theme.base08}; }
+      #network.disconnected   { color: ${theme.base08}; }
+      #bluetooth.off          { color: ${theme.base02}; }
       #custom-screenshot {
         margin: 0 7.5px;
-        color: #ebdbb2;
+        color: ${theme.base06};
       }
-      #custom-screenshot:hover { color: #7daea3; }
-      #custom-media             { color: #ebdbb2; }
-      #custom-media.Paused      { color: #665c54; }
+      #custom-screenshot:hover { color: ${theme.base0D}; }
+      #custom-media             { color: ${theme.base06}; }
+      #custom-media.Paused      { color: ${theme.base03}; }
       #custom-nightlight {
-        color: #ebdbb2;
+        color: ${theme.base06};
         margin: 0 7.5px;
       }
-      #custom-nightlight:hover { color: #fe8019; }
+      #custom-nightlight:hover { color: ${theme.base09}; }
       tooltip {
-        background-color: #3c3836;
-        border: 1px solid #7daea3;
+        background-color: ${theme.base01};
+        border: 1px solid ${theme.base0D};
         padding: 2px;
       }
-      tooltip label { color: #fbf1c7; }
+      tooltip label { color: ${theme.base07}; }
     '';
   };
 }

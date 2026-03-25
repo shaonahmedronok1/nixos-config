@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, themeNoHash, ... }:
 {
   imports = [
     ../../features/nix.nix
@@ -8,18 +8,15 @@
     ../../features/general.nix
   ];
 
-  # ── Boot ───────────────────────────────────────────────────────────────
   boot.loader.systemd-boot.enable      = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages                  = pkgs.linuxPackages_latest;
   boot.kernelModules                   = [ "i2c-dev" ];
 
-  # ── Networking ─────────────────────────────────────────────────────────
-  networking.hostName            = "nixos";
+  networking.hostName              = "nixos";
   networking.networkmanager.enable = true;
-  networking.firewall.enable     = true;
+  networking.firewall.enable       = true;
 
-  # ── Locale ─────────────────────────────────────────────────────────────
   time.timeZone      = "America/Los_Angeles";
   i18n.defaultLocale = "en_US.UTF-8";
   i18n.extraLocaleSettings = {
@@ -39,7 +36,6 @@
     variant = "";
   };
 
-  # ── User ───────────────────────────────────────────────────────────────
   users.users.az = {
     isNormalUser = true;
     description  = "az";
@@ -49,10 +45,9 @@
 
   security.pam.services.hyprlock = {};
 
-  # ── Hardware ───────────────────────────────────────────────────────────
-  hardware.graphics.enable             = true;
-  hardware.cpu.intel.updateMicrocode   = true;
-  hardware.i2c.enable                  = true;
+  hardware.graphics.enable           = true;
+  hardware.cpu.intel.updateMicrocode = true;
+  hardware.i2c.enable                = true;
 
   security.polkit.enable = true;
 
@@ -64,7 +59,6 @@
     };
   };
 
-  # ── Fonts ──────────────────────────────────────────────────────────────
   fonts.packages = with pkgs; [
     noto-fonts
     noto-fonts-cjk-sans
@@ -74,26 +68,25 @@
     font-awesome
   ];
 
-  # ── Stylix ─────────────────────────────────────────────────────────────
   stylix = {
     enable = true;
     base16Scheme = {
-      base00 = "242424";
-      base01 = "3c3836";
-      base02 = "504945";
-      base03 = "665c54";
-      base04 = "bdae93";
-      base05 = "d5c4a1";
-      base06 = "ebdbb2";
-      base07 = "fbf1c7";
-      base08 = "fb4934";
-      base09 = "fe8019";
-      base0A = "fabd2f";
-      base0B = "b8bb26";
-      base0C = "8ec07c";
-      base0D = "7daea3";
-      base0E = "e089a1";
-      base0F = "f28534";
+      base00 = themeNoHash.base00;
+      base01 = themeNoHash.base01;
+      base02 = themeNoHash.base02;
+      base03 = themeNoHash.base03;
+      base04 = themeNoHash.base04;
+      base05 = themeNoHash.base05;
+      base06 = themeNoHash.base06;
+      base07 = themeNoHash.base07;
+      base08 = themeNoHash.base08;
+      base09 = themeNoHash.base09;
+      base0A = themeNoHash.base0A;
+      base0B = themeNoHash.base0B;
+      base0C = themeNoHash.base0C;
+      base0D = themeNoHash.base0D;
+      base0E = themeNoHash.base0E;
+      base0F = themeNoHash.base0F;
     };
     image = ../../../../wallpaper.jpg;
     fonts.monospace = {

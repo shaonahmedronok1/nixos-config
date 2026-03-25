@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, theme, themeNoHash, ... }:
 {
   programs.btop = {
     enable = true;
@@ -24,27 +24,27 @@
   programs.mpv = {
     enable = true;
     config = {
-      profile        = "fast";
-      vo             = "gpu";
-      hwdec          = "vaapi";
-      "gpu-api"      = "opengl";
+      profile               = "fast";
+      vo                    = "gpu";
+      hwdec                 = "vaapi";
+      "gpu-api"             = "opengl";
       save-position-on-quit = true;
-      osc            = false;
-      border         = false;
-      cursor-autohide = 1000;
-      slang          = "en,eng,enUS,enGB,enAU,enNZ,enCA,enIE,enZA";
-      ytdl-raw-options = "ignore-config=,sub-langs=\"en.*,^en\",write-subs=,write-auto-subs=";
-      sub-visibility = "yes";
-      sub-auto       = "fuzzy";
-      sub-font       = "JetBrainsMono Nerd Font Mono";
-      sub-font-size  = 33;
-      sub-border-size = 3;
-      sub-shadow-offset = 1;
-      sub-pos        = 98;
-      sub-align-y    = "bottom";
-      sub-margin-y   = 20;
-      osd-font       = "JetBrainsMono Nerd Font";
-      osd-font-size  = 28;
+      osc                   = false;
+      border                = false;
+      cursor-autohide       = 1000;
+      slang                 = "en,eng,enUS,enGB,enAU,enNZ,enCA,enIE,enZA";
+      ytdl-raw-options      = "ignore-config=,sub-langs=\"en.*,^en\",write-subs=,write-auto-subs=";
+      sub-visibility        = "yes";
+      sub-auto              = "fuzzy";
+      sub-font              = "JetBrainsMono Nerd Font Mono";
+      sub-font-size         = 33;
+      sub-border-size       = 3;
+      sub-shadow-offset     = 1;
+      sub-pos               = 98;
+      sub-align-y           = "bottom";
+      sub-margin-y          = 20;
+      osd-font              = "JetBrainsMono Nerd Font";
+      osd-font-size         = 28;
     };
     bindings = {
       "l"     = "seek 5";
@@ -67,49 +67,51 @@
   programs.kitty = {
     enable = true;
     settings = {
-      window_padding_width  = 10;
-      background_opacity    = "1.0";
-      cursor_shape          = "block";
-      font_family           = "JetBrainsMono Nerd Font";
-      font_size             = 16;
-      cursor_trail          = 3;
-      background            = "#242424";
-      foreground            = "#ebdbb2";
-      cursor                = "#ebdbb2";
-      cursor_text_color     = "#242424";
-      selection_background  = "#504945";
-      selection_foreground  = "#d5c4a1";
-      active_tab_background   = "#242424";
-      active_tab_foreground   = "#ebdbb2";
-      inactive_tab_background = "#3c3836";
-      inactive_tab_foreground = "#665c54";
-      color0  = "#242424"; color8  = "#504945";
-      color1  = "#fb4934"; color9  = "#fb4934";
-      color2  = "#b8bb26"; color10 = "#b8bb26";
-      color3  = "#fabd2f"; color11 = "#fabd2f";
-      color4  = "#7daea3"; color12 = "#7daea3";
-      color5  = "#e089a1"; color13 = "#e089a1";
-      color6  = "#8ec07c"; color14 = "#8ec07c";
-      color7  = "#ebdbb2"; color15 = "#fbf1c7";
+      window_padding_width    = 10;
+      background_opacity      = "1.0";
+      cursor_shape            = "block";
+      font_family             = "JetBrainsMono Nerd Font";
+      font_size               = 16;
+      cursor_trail            = 3;
+      background              = theme.base00;
+      foreground              = theme.base06;
+      cursor                  = theme.base06;
+      cursor_text_color       = theme.base00;
+      selection_background    = theme.base02;
+      selection_foreground    = theme.base05;
+      active_tab_background   = theme.base00;
+      active_tab_foreground   = theme.base06;
+      inactive_tab_background = theme.base01;
+      inactive_tab_foreground = theme.base03;
+      color0  = theme.base00; color8  = theme.base02;
+      color1  = theme.base08; color9  = theme.base08;
+      color2  = theme.base0B; color10 = theme.base0B;
+      color3  = theme.base0A; color11 = theme.base0A;
+      color4  = theme.base0D; color12 = theme.base0D;
+      color5  = theme.base0E; color13 = theme.base0E;
+      color6  = theme.base0C; color14 = theme.base0C;
+      color7  = theme.base06; color15 = theme.base07;
     };
   };
 
   services.mako = {
     enable = true;
     settings = {
-      border-size      = 2;
-      border-radius    = 6;
-      font             = lib.mkForce "JetBrainsMono Nerd Font 13";
-      width            = 400;
-      height           = 120;
-      padding          = "12";
-      margin           = "10";
-      default-timeout  = 11000;
-      ignore-timeout   = 0;
+      border-size       = 2;
+      border-radius     = 6;
+      font              = lib.mkForce "JetBrainsMono Nerd Font 13";
+      width             = 400;
+      height            = 120;
+      padding           = "12";
+      margin            = "10";
+      default-timeout   = 11000;
+      ignore-timeout    = 0;
+      background-color  = lib.mkForce theme.base01;
+      text-color        = lib.mkForce theme.base06;
+      border-color      = lib.mkForce theme.base0D;
     };
   };
 
-  
   programs.fuzzel = {
     enable = true;
     settings = {
@@ -120,13 +122,13 @@
         terminal = "kitty";
       };
       colors = {
-        background    = "242424ff";
-        text          = "ebdbb2ff";
-        match         = "b8bb26ff";
-        selection     = "3c3836ff";
-        selection-text  = "ebdbb2ff";
-        selection-match = "fabd2fff";
-        border        = "7daea3ff";
+        background      = "${themeNoHash.base00}ff";
+        text            = "${themeNoHash.base06}ff";
+        match           = "${themeNoHash.base0B}ff";
+        selection       = "${themeNoHash.base01}ff";
+        selection-text  = "${themeNoHash.base06}ff";
+        selection-match = "${themeNoHash.base0A}ff";
+        border          = "${themeNoHash.base0D}ff";
       };
       border = {
         width  = 2;
@@ -135,14 +137,13 @@
     };
   };
 
-
   programs.imv = {
     enable = true;
     settings = {
       options = {
-        background               = "242424";
-        overlay_text_color       = "ebdbb2";
-        overlay_background_color = "3c3836";
+        background               = themeNoHash.base00;
+        overlay_text_color       = themeNoHash.base06;
+        overlay_background_color = themeNoHash.base01;
         overlay_font             = "JetBrainsMono Nerd Font:12";
       };
       binds = {
@@ -153,8 +154,6 @@
       };
     };
   };
-
-  # ── Config files ────────────────────────────────────────────────────────
 
   home.file.".config/fastfetch/config.jsonc".text = ''
     {
@@ -249,11 +248,11 @@
     for = "unix"
     [open]
     rules = [
-        { mime = "audio/*",           use = "play_audio" },
-        { mime = "image/*",           use = "image" },
-        { mime = "text/*",            use = "edit" },
-        { mime = "video/*",           use = [ "open" ] },
-        { mime = "application/pdf",   use = "open_pdf" },
+        { mime = "audio/*",         use = "play_audio" },
+        { mime = "image/*",         use = "image" },
+        { mime = "text/*",          use = "edit" },
+        { mime = "video/*",         use = [ "open" ] },
+        { mime = "application/pdf", use = "open_pdf" },
     ]
     [[open.prepend_rules]]
     mime = "text/html"
@@ -265,86 +264,86 @@
 
   home.file.".config/yazi/theme.toml".text = ''
     [mgr]
-    cwd             = { fg = "#b8bb26", bold = true }
-    hovered         = { fg = "#242424", bg = "#b8bb26" }
-    find_keyword    = { fg = "#b8bb26", bold = true }
-    find_position   = { fg = "#fe8019", bg = "reset", bold = true }
-    marker_copied   = { fg = "#b8bb26", bg = "#b8bb26" }
-    marker_cut      = { fg = "#fb4934", bg = "#fb4934" }
-    marker_selected = { fg = "#7daea3", bg = "#7daea3" }
-    count_copied    = { fg = "#242424", bg = "#b8bb26" }
-    count_cut       = { fg = "#242424", bg = "#fb4934" }
-    count_selected  = { fg = "#242424", bg = "#7daea3" }
+    cwd             = { fg = "${theme.base0B}", bold = true }
+    hovered         = { fg = "${theme.base00}", bg = "${theme.base0B}" }
+    find_keyword    = { fg = "${theme.base0B}", bold = true }
+    find_position   = { fg = "${theme.base09}", bg = "reset", bold = true }
+    marker_copied   = { fg = "${theme.base0B}", bg = "${theme.base0B}" }
+    marker_cut      = { fg = "${theme.base08}", bg = "${theme.base08}" }
+    marker_selected = { fg = "${theme.base0D}", bg = "${theme.base0D}" }
+    count_copied    = { fg = "${theme.base00}", bg = "${theme.base0B}" }
+    count_cut       = { fg = "${theme.base00}", bg = "${theme.base08}" }
+    count_selected  = { fg = "${theme.base00}", bg = "${theme.base0D}" }
     border_symbol   = "│"
-    border_style    = { fg = "#665c54" }
+    border_style    = { fg = "${theme.base03}" }
 
     [indicator]
     preview = { underline = true }
 
     [tabs]
-    active   = { fg = "#242424", bg = "#b8bb26", bold = true }
-    inactive = { fg = "#bdae93", bg = "#3c3836" }
+    active   = { fg = "${theme.base00}", bg = "${theme.base0B}", bold = true }
+    inactive = { fg = "${theme.base04}", bg = "${theme.base01}" }
 
     [status]
     separator_open  = ""
     separator_close = ""
-    separator_style = { fg = "#3c3836", bg = "#3c3836" }
-    mode_normal     = { fg = "#242424", bg = "#b8bb26", bold = true }
-    mode_select     = { fg = "#242424", bg = "#b8bb26", bold = true }
-    mode_unset      = { fg = "#242424", bg = "#7daea3", bold = true }
-    progress_label  = { fg = "#ebdbb2", bold = true }
-    progress_normal = { fg = "#7daea3", bg = "#3c3836" }
-    progress_error  = { fg = "#fb4934", bg = "#3c3836" }
-    permissions_t   = { fg = "#fe8019" }
-    permissions_r   = { fg = "#b8bb26" }
-    permissions_w   = { fg = "#fb4934" }
-    permissions_x   = { fg = "#7daea3" }
-    permissions_s   = { fg = "#665c54" }
+    separator_style = { fg = "${theme.base01}", bg = "${theme.base01}" }
+    mode_normal     = { fg = "${theme.base00}", bg = "${theme.base0B}", bold = true }
+    mode_select     = { fg = "${theme.base00}", bg = "${theme.base0B}", bold = true }
+    mode_unset      = { fg = "${theme.base00}", bg = "${theme.base0D}", bold = true }
+    progress_label  = { fg = "${theme.base06}", bold = true }
+    progress_normal = { fg = "${theme.base0D}", bg = "${theme.base01}" }
+    progress_error  = { fg = "${theme.base08}", bg = "${theme.base01}" }
+    permissions_t   = { fg = "${theme.base09}" }
+    permissions_r   = { fg = "${theme.base0B}" }
+    permissions_w   = { fg = "${theme.base08}" }
+    permissions_x   = { fg = "${theme.base0D}" }
+    permissions_s   = { fg = "${theme.base03}" }
 
     [input]
-    border   = { fg = "#fe8019" }
+    border   = { fg = "${theme.base09}" }
     title    = {}
     value    = {}
     selected = { reversed = true }
 
     [select]
-    border   = { fg = "#fe8019" }
-    active   = { fg = "#b8bb26", bold = true }
+    border   = { fg = "${theme.base09}" }
+    active   = { fg = "${theme.base0B}", bold = true }
     inactive = {}
 
     [tasks]
-    border  = { fg = "#fe8019" }
+    border  = { fg = "${theme.base09}" }
     title   = {}
     hovered = { underline = true }
 
     [which]
     cols            = 3
-    mask            = { bg = "#3c3836" }
-    cand            = { fg = "#b8bb26" }
-    rest            = { fg = "#665c54" }
-    desc            = { fg = "#ebdbb2" }
+    mask            = { bg = "${theme.base01}" }
+    cand            = { fg = "${theme.base0B}" }
+    rest            = { fg = "${theme.base03}" }
+    desc            = { fg = "${theme.base06}" }
     separator       = "  "
-    separator_style = { fg = "#665c54" }
+    separator_style = { fg = "${theme.base03}" }
 
     [notify]
-    title_info  = { fg = "#b8bb26" }
-    title_warn  = { fg = "#fabd2f" }
-    title_error = { fg = "#fb4934" }
+    title_info  = { fg = "${theme.base0B}" }
+    title_warn  = { fg = "${theme.base0A}" }
+    title_error = { fg = "${theme.base08}" }
 
     [filetype]
     rules = [
-      { mime = "image/*",         fg = "#7daea3" },
-      { mime = "video/*",         fg = "#fe8019" },
-      { mime = "audio/*",         fg = "#b8bb26" },
-      { mime = "text/*",          fg = "#ebdbb2" },
-      { mime = "inode/directory", fg = "#fe8019", bold = true },
-      { name = "*.nix",           fg = "#7daea3" },
-      { name = "*.rs",            fg = "#fe8019" },
-      { name = "*.py",            fg = "#fabd2f" },
-      { name = "*.sh",            fg = "#b8bb26" },
-      { name = "*.md",            fg = "#ebdbb2" },
-      { name = "*.toml",          fg = "#fe8019" },
-      { name = "*.json",          fg = "#fabd2f" },
+      { mime = "image/*",         fg = "${theme.base0D}" },
+      { mime = "video/*",         fg = "${theme.base09}" },
+      { mime = "audio/*",         fg = "${theme.base0B}" },
+      { mime = "text/*",          fg = "${theme.base06}" },
+      { mime = "inode/directory", fg = "${theme.base09}", bold = true },
+      { name = "*.nix",           fg = "${theme.base0D}" },
+      { name = "*.rs",            fg = "${theme.base09}" },
+      { name = "*.py",            fg = "${theme.base0A}" },
+      { name = "*.sh",            fg = "${theme.base0B}" },
+      { name = "*.md",            fg = "${theme.base06}" },
+      { name = "*.toml",          fg = "${theme.base09}" },
+      { name = "*.json",          fg = "${theme.base0A}" },
     ]
   '';
 
@@ -356,31 +355,31 @@
         opts = {
           contrast = "hard",
           overrides = {
-            Normal         = { bg = "#242424" },
-            NormalNC       = { bg = "#242424" },
-            SignColumn     = { bg = "#242424" },
-            EndOfBuffer    = { bg = "#242424" },
-            NormalFloat    = { bg = "#242424" },
-            Boolean        = { fg = "#e089a1", bg = "NONE" },
-            Number         = { fg = "#e089a1", bg = "NONE" },
-            Float          = { fg = "#e089a1", bg = "NONE" },
-            String         = { fg = "#b8bb26", bg = "NONE", italic = true },
-            Function       = { fg = "#b8bb26", bold = true, italic = true },
-            Keyword        = { fg = "#fb4934" },
-            Type           = { fg = "#fabd2f" },
-            Operator       = { fg = "#fe8019" },
-            Comment        = { fg = "#665c54", italic = true },
-            ["@string"]    = { fg = "#b8bb26", italic = true },
-            ["@number"]    = { fg = "#e089a1" },
-            ["@boolean"]   = { fg = "#e089a1" },
-            ["@function"]  = { fg = "#b8bb26", bold = true, italic = true },
-            ["@keyword"]   = { fg = "#fb4934" },
-            ["@type"]      = { fg = "#8ec07c", bold = true },
-            ["@variable"]  = { fg = "#7daea3" },
-            ["@field"]     = { fg = "#fe8019" },
-            ["@property"]  = { fg = "#fe8019" },
-            ["@attribute"] = { fg = "#fe8019" },
-            ["@punctuation"] = { fg = "#fe8019" },
+            Normal         = { bg = "${theme.base00}" },
+            NormalNC       = { bg = "${theme.base00}" },
+            SignColumn     = { bg = "${theme.base00}" },
+            EndOfBuffer    = { bg = "${theme.base00}" },
+            NormalFloat    = { bg = "${theme.base00}" },
+            Boolean        = { fg = "${theme.base0E}", bg = "NONE" },
+            Number         = { fg = "${theme.base0E}", bg = "NONE" },
+            Float          = { fg = "${theme.base0E}", bg = "NONE" },
+            String         = { fg = "${theme.base0B}", bg = "NONE", italic = true },
+            Function       = { fg = "${theme.base0B}", bold = true, italic = true },
+            Keyword        = { fg = "${theme.base08}" },
+            Type           = { fg = "${theme.base0A}" },
+            Operator       = { fg = "${theme.base09}" },
+            Comment        = { fg = "${theme.base03}", italic = true },
+            ["@string"]    = { fg = "${theme.base0B}", italic = true },
+            ["@number"]    = { fg = "${theme.base0E}" },
+            ["@boolean"]   = { fg = "${theme.base0E}" },
+            ["@function"]  = { fg = "${theme.base0B}", bold = true, italic = true },
+            ["@keyword"]   = { fg = "${theme.base08}" },
+            ["@type"]      = { fg = "${theme.base0C}", bold = true },
+            ["@variable"]  = { fg = "${theme.base0D}" },
+            ["@field"]     = { fg = "${theme.base09}" },
+            ["@property"]  = { fg = "${theme.base09}" },
+            ["@attribute"] = { fg = "${theme.base09}" },
+            ["@punctuation"] = { fg = "${theme.base09}" },
           },
         },
       },
@@ -426,43 +425,22 @@
     ⚡ lightning fast energy
     🌙 moon night
     ☀️ sun bright day
-    🍁 maple leaf nature plant vegetable ca fall
-    🦀 crab animal crustacean
-    🦞 lobster animal nature bisque claws seafood
-    🦐 shrimp animal ocean nature seafood
-    ❄️ snowflake winter season cold weather christmas xmas
-    ✨ sparkles stars shine shiny cool awesome good magic
-    📚 books literature library study
-    ✏️ pencil stationery write paper writing school study
-    ✒️ black nib pen stationery writing write
-    🖋️ fountain pen stationery writing write
-    🖊️ pen stationery writing write
-    🖌️ paintbrush drawing creativity art
-    🖍️ crayon drawing creativity
-    🧬 dna biologist genetics life
-    ⚛️ atom symbol science physics chemistry
-    🪸 coral ocean sea reef
-    🪷 lotus flower calm meditation
-    🫧 bubbles soap fun carbonation sparkling
-    🍫 chocolate bar food snack dessert sweet
-    🍕 pizza food party
-    🌭 hot dog food frankfurter
-    🥦 broccoli fruit food vegetable
-    🍞 bread food wheat breakfast toast
-    🥐 croissant food bread french
-    🥖 baguette bread food bread french
-    🥪 sandwich food lunch bread
-    🥗 green salad food healthy lettuce
-    🍿 popcorn food movie theater films snack
-    🍝 spaghetti food italian noodle
-    🌺 hibiscus plant vegetable flowers beach
-    🦩 flamingo animal
-    🦉 owl animal nature bird hoot
-    🐧 penguin animal nature
-    🐼 panda animal nature panda
-    🤝 handshake agreement shake
-    💢 anger symbol angry mad
-    💮 white flower japanese spring
-    🌸 cherry blossom flower
+    🍁 maple leaf autumn
+    🦀 crab animal
+    🦞 lobster seafood
+    🦐 shrimp seafood
+    ❄️ snowflake winter
+    📚 books study
+    ✏️ pencil write
+    🧬 dna genetics
+    ⚛️ atom science
+    🍫 chocolate
+    🍕 pizza
+    🌺 hibiscus flower
+    🦉 owl bird
+    🐧 penguin
+    🐼 panda
+    🤝 handshake
+    🌸 cherry blossom
   '';
 }

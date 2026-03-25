@@ -105,6 +105,7 @@
     # Network
     iwd
     networkmanagerapplet
+    impala
 
     # Utils
     wget

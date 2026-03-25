@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, theme, themeNoHash, ... }:
 {
   wayland.windowManager.hyprland = {
     enable         = true;
@@ -33,8 +33,8 @@
         gaps_in    = 0;
         gaps_out   = 0;
         border_size = 4;
-        "col.active_border"   = "rgba(b8bb26ff) rgba(b8bb26ff) 45deg";
-        "col.inactive_border" = "rgba(3c3836ff)";
+        "col.active_border"   = "rgba(${themeNoHash.base0B}ff) rgba(${themeNoHash.base0B}ff) 45deg";
+        "col.inactive_border" = "rgba(${themeNoHash.base01}ff)";
         layout           = "dwindle";
         resize_on_border = true;
       };
@@ -52,7 +52,7 @@
           enabled      = true;
           range        = 8;
           render_power = 2;
-          "color"      = lib.mkForce "rgba(242424bb)";
+          "color"      = lib.mkForce "rgba(${themeNoHash.base00}bb)";
         };
       };
 
@@ -65,7 +65,7 @@
       };
 
       dwindle = {
-        pseudotile    = true;
+        pseudotile     = true;
         preserve_split = true;
       };
 
@@ -87,9 +87,7 @@
         force_default_wallpaper  = 0;
       };
 
-      cursor = {
-        no_hardware_cursors = false;
-      };
+      cursor.no_hardware_cursors = false;
 
       windowrulev2 = [
         "float, class:^(pavucontrol)$"
@@ -174,7 +172,6 @@
     };
   };
 
-  # ── Hypridle ───────────────────────────────────────────────────────────
   services.hypridle = {
     enable = true;
     settings = {
@@ -184,19 +181,12 @@
         after_sleep_cmd  = "hyprctl dispatch dpms on";
       };
       listener = [
-        {
-          timeout    = 300;
-          on-timeout = "loginctl lock-session";
-        }
-        {
-          timeout    = 600;
-          on-timeout = "systemctl suspend";
-        }
+        { timeout = 300; on-timeout = "loginctl lock-session"; }
+        { timeout = 600; on-timeout = "systemctl suspend"; }
       ];
     };
   };
 
-  # ── Hyprlock ──────────────────────────────────────────────────────────
   programs.hyprlock = {
     enable = true;
     settings = {
@@ -218,9 +208,9 @@
         dots_center       = true;
         fade_on_empty     = false;
         outline_thickness = 3;
-        outer_color       = "rgb(b8bb26)";
-        inner_color       = "rgb(242424)";
-        font_color        = "rgb(ebdbb2)";
+        outer_color       = "rgb(${themeNoHash.base0B})";
+        inner_color       = "rgb(${themeNoHash.base00})";
+        font_color        = "rgb(${themeNoHash.base06})";
         placeholder_text  = "<i>Password...</i>";
         shadow_passes     = 2;
         halign            = "center";
@@ -228,7 +218,7 @@
       }];
       label = [{
         text        = "$TIME";
-        color       = "rgba(ebdbb2ff)";
+        color       = "rgba(${themeNoHash.base06}ff)";
         font_size   = 52;
         font_family = "JetBrainsMono Nerd Font";
         position    = "0, 80";
