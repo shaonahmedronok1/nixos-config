@@ -109,6 +109,7 @@
     };
   };
 
+  
   programs.fuzzel = {
     enable = true;
     settings = {
@@ -118,12 +119,22 @@
         width    = 45;
         terminal = "kitty";
       };
+      colors = {
+        background    = "242424ff";
+        text          = "ebdbb2ff";
+        match         = "b8bb26ff";
+        selection     = "3c3836ff";
+        selection-text  = "ebdbb2ff";
+        selection-match = "fabd2fff";
+        border        = "7daea3ff";
+      };
       border = {
         width  = 2;
         radius = 6;
       };
     };
   };
+
 
   programs.imv = {
     enable = true;
