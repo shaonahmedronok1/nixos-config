@@ -161,7 +161,7 @@
       "$schema": "https://github.com/fastfetch-cli/fastfetch/raw/dev/doc/json_schema.json",
       "logo": {
         "type": "kitty-direct",
-        "source": "/home/az/dirrr/ff1.png",
+        "source": "/home/az/dirrr/nix-gruvbox.png",
         "width": 32,
         "height": 15,
         "padding": { "top": 1, "left": 1, "right": 4 }
