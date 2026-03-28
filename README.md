@@ -64,13 +64,16 @@ Now the README. Complete replacement:
 
 ---
 
+
+
+
 <div align="center">
 
 ## Structure
 
 </div>
 
-```
+<pre>
 /etc/nixos/
 ├── flake.nix                            ← entry point, versions pinned
 ├── flake.lock                           ← exact snapshot — always commit
@@ -94,9 +97,9 @@ Now the README. Complete replacement:
         ├── waybar.nix                   ← bar config + style
         ├── programs.nix                 ← kitty, mpv, fuzzel, mako, yazi, nvim
         └── scripts.nix                  ← screenshot, wallpaper, nightlight
-```
+</pre>
 
----
+
 
 <div align="center">
 
