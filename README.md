@@ -55,6 +55,7 @@
 ├── theme.nix                            ← ONE place for all colors (base00–base0F)
 ├── wallpaper.jpg
 ├── hardware-configuration.nix           ← machine-specific — regenerate on new PC
+├── docs/                                ← cheatsheets and reference documents
 └── modules/
     ├── nixos/
     │   ├── features/
