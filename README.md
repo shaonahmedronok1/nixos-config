@@ -1,20 +1,45 @@
-<div align="center">
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:ffb7c5,100:c2185b&height=180&section=header&text=nixos-config&fontSize=36&fontColor=fff&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20Flakes%20%C2%B7%20Home%20Manager%20%C2%B7%20Hyprland%20WM%20%C2%B7%20Wayland&descAlignY=58&descColor=ffe0ec"/>
+For `nix.nix` — you already have the base. The two extras from Vimjoyer worth adding are optional. Add only if you do dev work:
 
-[![Website](https://img.shields.io/badge/🌸%20shaon.neocities.org-c2185b?style=for-the-badge)](https://shaon.neocities.org)
-[![NixOS](https://img.shields.io/badge/NixOS-25.11-%235277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.org)
-[![Hyprland](https://img.shields.io/badge/Hyprland-WM-58E1FF?style=for-the-badge&logo=wayland&logoColor=black)](https://hyprland.org/)
-[![Flakes](https://img.shields.io/badge/Flakes-Enabled-5277C3?style=for-the-badge&logo=nixos&logoColor=white)](https://nixos.wiki/wiki/Flakes)
-[![Home Manager](https://img.shields.io/badge/Home_Manager-25.11-c2185b?style=for-the-badge)](https://nix-community.github.io/home-manager/)
+```nix
+{ ... }:
+{
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nixpkgs.config.allowUnfree = true;
+  programs.nix-ld.enable = true;        # run unpatched binaries
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;           # per-project nix shells
+  };
+}
+```
+
+If you don't do programming projects — skip it. Zero impact either way.
+
+---
+
+Now the README. Complete replacement:
+
+```markdown
+<div align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:242424,100:3c3836&height=180&section=header&text=nixconf&fontSize=36&fontColor=ebdbb2&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20Flakes%20%C2%B7%20Home%20Manager%20%C2%B7%20Hyprland%20%C2%B7%20Wayland&descAlignY=58&descColor=bdae93"/>
+
+[![Website](https://img.shields.io/badge/shaon.neocities.org-242424?style=for-the-badge&labelColor=3c3836&color=b8bb26)](https://shaon.neocities.org)
+[![NixOS](https://img.shields.io/badge/NixOS-25.11-242424?style=for-the-badge&logo=nixos&logoColor=7daea3&labelColor=3c3836)](https://nixos.org)
+[![Hyprland](https://img.shields.io/badge/Hyprland-Wayland-242424?style=for-the-badge&logo=wayland&logoColor=8ec07c&labelColor=3c3836)](https://hyprland.org/)
+[![Flakes](https://img.shields.io/badge/Flakes-Enabled-242424?style=for-the-badge&logo=nixos&logoColor=fabd2f&labelColor=3c3836)](https://nixos.wiki/wiki/Flakes)
+[![Home Manager](https://img.shields.io/badge/Home_Manager-25.11-242424?style=for-the-badge&logoColor=e089a1&labelColor=3c3836)](https://nix-community.github.io/home-manager/)
 
 *Everything declared. Nothing manual. Reproducible from scratch with one rebuild.*
+
 </div>
 
 ---
 
 <div align="center">
 
-## 🌸 System
+## System
+
+</div>
 
 | | |
 |---|---|
@@ -23,7 +48,7 @@
 | **Terminal** | Kitty |
 | **Shell** | Bash + Starship |
 | **Editor** | Neovim + LazyVim |
-| **Browser** | Google Chrome & others |
+| **Browser** | Google Chrome + LibreWolf + Firefox |
 | **Launcher** | Fuzzel |
 | **Bar** | Waybar |
 | **Notifications** | Mako |
@@ -31,68 +56,153 @@
 | **Screen Lock** | Hyprlock |
 | **Idle Daemon** | Hypridle |
 | **Warm Light** | hyprsunset |
+| **File Manager** | Yazi + Thunar |
+| **WiFi TUI** | Impala |
 | **Theme** | Gruvbox Hard Dark |
 | **Font** | JetBrainsMono Nerd Font |
+| **Icons** | Gruvbox-Plus-Dark |
 
 ---
 
-## 🌺 Structure
+<div align="center">
+
+## Structure
+
+</div>
+
 ```
-nixos-config/
-├── flake.nix                  ← entry point, versions pinned
-├── flake.lock                 ← exact version snapshot, never touch
-├── configuration.nix          ← system-level declaration
-├── home.nix                   ← Home Manager user config, all dotfiles
-├── hardware-configuration.nix ← machine-specific, regenerate fresh on new PC
-└── assets/                    ← wallpapers and design assets
+/etc/nixos/
+├── flake.nix                            ← entry point, versions pinned
+├── flake.lock                           ← exact snapshot — always commit
+├── theme.nix                            ← ONE place for all colors (base00–base0F)
+├── wallpaper.jpg
+├── hardware-configuration.nix           ← machine-specific — regenerate on new PC
+└── modules/
+    ├── nixos/
+    │   ├── features/
+    │   │   ├── nix.nix                  ← flakes, direnv, nix-ld
+    │   │   ├── pipewire.nix             ← audio
+    │   │   ├── gtk.nix                  ← GTK + icon theme system-wide
+    │   │   ├── hyprland.nix             ← Hyprland + portals
+    │   │   └── general.nix              ← all system packages + services
+    │   └── hosts/
+    │       └── az-pc/
+    │           └── configuration.nix    ← boot, locale, users, stylix, fonts
+    └── home/
+        ├── default.nix                  ← shell, git, gtk, qt, imports
+        ├── hyprland.nix                 ← keybinds, rules, hypridle, hyprlock
+        ├── waybar.nix                   ← bar config + style
+        ├── programs.nix                 ← kitty, mpv, fuzzel, mako, yazi, nvim
+        └── scripts.nix                  ← screenshot, wallpaper, nightlight
 ```
 
 ---
 
-## 🌸 Apply
+<div align="center">
+
+## Apply
+
+</div>
 
 **First time on a new machine:**
 ```bash
-git clone https://github.com/shaonahmedronok1/nixos-config
-sudo cp nixos-config/flake.nix /etc/nixos/
-sudo cp nixos-config/flake.lock /etc/nixos/
-sudo cp nixos-config/configuration.nix /etc/nixos/
-sudo cp nixos-config/home.nix /etc/nixos/
-# generate fresh hardware-configuration.nix — never copy this one
+# 1. Install NixOS minimal, then generate hardware config
 sudo nixos-generate-config
+
+# 2. Clone repo
+git clone https://github.com/shaonahmedronok1/nixconf /tmp/nixconf
+
+# 3. Copy everything EXCEPT hardware-configuration.nix
+sudo cp -r /tmp/nixconf/modules /etc/nixos/
+sudo cp /tmp/nixconf/flake.nix /etc/nixos/
+sudo cp /tmp/nixconf/flake.lock /etc/nixos/
+sudo cp /tmp/nixconf/theme.nix /etc/nixos/
+sudo cp /tmp/nixconf/wallpaper.jpg /etc/nixos/
+
+# 4. Track and rebuild
+cd /etc/nixos && git init && git add .
 sudo nixos-rebuild switch --flake /etc/nixos#nixos
 ```
 
-**Daily use — after editing any config:**
+**Daily use — after any edit:**
 ```bash
+cd /etc/nixos
+# edit whatever file
+git add .
 sudo nixos-rebuild switch --flake /etc/nixos#nixos
+git commit -m "what changed"
+git push
 ```
 
 **Monthly update:**
 ```bash
-sudo nix flake update /etc/nixos
+cd /etc/nixos
+sudo nix flake update
+git add .
 sudo nixos-rebuild switch --flake /etc/nixos#nixos
+nh clean all --keep 3
+git commit -m "update"
+git push
+```
+
+**Rollback if broken:**
+```bash
+sudo nixos-rebuild switch --rollback
 ```
 
 ---
 
-## 🌺 Design Principles
+<div align="center">
+
+## Where to add new things
+
+</div>
+
+| What | Where |
+|---|---|
+| New system package | `modules/nixos/features/general.nix` |
+| New system service | `modules/nixos/features/general.nix` or new feature file |
+| New keybind | `modules/home/hyprland.nix` → `bind = [...]` |
+| New autostart | `modules/home/hyprland.nix` → `exec-once = [...]` |
+| New program config | `modules/home/programs.nix` |
+| New shell script | `modules/home/scripts.nix` |
+| Waybar changes | `modules/home/waybar.nix` |
+| Color changes | `theme.nix` only — never hardcode hex anywhere else |
+
+---
+
+<div align="center">
+
+## Design Principles
+
+</div>
 
 - Everything declared. Nothing manual.
 - Reproducible from scratch with one rebuild.
 - Minimal — nothing installed without a reason.
 - Flakes for version pinning — exact reproducibility guaranteed.
-- Home Manager as NixOS module — all dotfiles declared in `home.nix`.
+- Home Manager as NixOS module — all dotfiles declared in nix files.
 - `~/.config` is entirely symlinks to `/nix/store/` — never edited directly.
 - `hardware-configuration.nix` is machine-specific — always regenerate fresh.
 - `flake.lock` is committed — guarantees identical rebuild anywhere, anytime.
+- Colors live in `theme.nix` only — change once, propagates everywhere.
 
 ---
 
-## 🎨 Assets
+<div align="center">
 
-Wallpaper design by Shaon Ahmed Ronok.
-Based on the NixOS logo (nixos.org), used under CC BY 4.0.
+## Rules — never break these
+
+</div>
+
+```bash
+# Always git add . BEFORE nixos-rebuild — flakes only see tracked files
+# Never edit ~/.config directly — symlinks, will be overwritten on rebuild
+# Never copy hardware-configuration.nix to a new machine — always regenerate
+# Always commit flake.lock after nix flake update
+# Never change home.stateVersion or system.stateVersion
+# One file at a time — edit, rebuild, confirm, then commit
+```
 
 ---
 
@@ -104,6 +214,7 @@ MIT — use freely.
 
 *"The burden of proof lies with the addition."*
 
-<img src="https://capsule-render.vercel.app/api?type=waving&color=0:c2185b,100:ffb7c5&height=120&section=footer"/>
-
+<div align="center">
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:3c3836,100:242424&height=120&section=footer"/>
 </div>
+```
