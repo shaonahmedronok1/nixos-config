@@ -1,25 +1,3 @@
-For `nix.nix` — you already have the base. The two extras from Vimjoyer worth adding are optional. Add only if you do dev work:
-
-```nix
-{ ... }:
-{
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  nixpkgs.config.allowUnfree = true;
-  programs.nix-ld.enable = true;        # run unpatched binaries
-  programs.direnv = {
-    enable = true;
-    nix-direnv.enable = true;           # per-project nix shells
-  };
-}
-```
-
-If you don't do programming projects — skip it. Zero impact either way.
-
----
-
-Now the README. Complete replacement:
-
-```markdown
 <div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:242424,100:3c3836&height=180&section=header&text=nixconf&fontSize=36&fontColor=ebdbb2&fontAlignY=38&desc=Declarative%20NixOS%20%C2%B7%20Flakes%20%C2%B7%20Home%20Manager%20%C2%B7%20Hyprland%20%C2%B7%20Wayland&descAlignY=58&descColor=bdae93"/>
 
@@ -64,9 +42,6 @@ Now the README. Complete replacement:
 
 ---
 
-
-
-
 <div align="center">
 
 ## Structure
@@ -83,7 +58,7 @@ Now the README. Complete replacement:
 └── modules/
     ├── nixos/
     │   ├── features/
-    │   │   ├── nix.nix                  ← flakes, direnv, nix-ld
+    │   │   ├── nix.nix                  ← flakes, allowUnfree
     │   │   ├── pipewire.nix             ← audio
     │   │   ├── gtk.nix                  ← GTK + icon theme system-wide
     │   │   ├── hyprland.nix             ← Hyprland + portals
@@ -99,7 +74,7 @@ Now the README. Complete replacement:
         └── scripts.nix                  ← screenshot, wallpaper, nightlight
 </pre>
 
-
+---
 
 <div align="center">
 
@@ -197,7 +172,6 @@ sudo nixos-rebuild switch --rollback
 ## Rules — never break these
 
 </div>
-
 ```bash
 # Always git add . BEFORE nixos-rebuild — flakes only see tracked files
 # Never edit ~/.config directly — symlinks, will be overwritten on rebuild
@@ -220,4 +194,3 @@ MIT — use freely.
 <div align="center">
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:3c3836,100:242424&height=120&section=footer"/>
 </div>
-```
