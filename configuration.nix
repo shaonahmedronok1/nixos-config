@@ -63,7 +63,6 @@
   services.gvfs.enable                = true;
   services.gnome.gnome-keyring.enable = true;
   services.udisks2.enable             = true;
-
   fonts.packages = with pkgs; [
     iosevka
   ];
@@ -115,7 +114,6 @@
   home-manager.users.shaonix = {
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;
-
     systemd.user.sessionVariables = {
       GDK_BACKEND                        = "wayland,x11";
     };
