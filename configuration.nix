@@ -1,21 +1,4 @@
 { config, pkgs, lib, ... }:
-
-let
-  theme-name         = "Gruvbox-Green-Light-Medium";
-  theme-package      = pkgs.gruvbox-gtk-theme.override {
-    colorVariants  = [ "light" ];
-    sizeVariants   = [ "standard" ];
-    themeVariants  = [ "green" ];
-    tweakVariants  = [ "medium" "macos" ];
-  };
-  icon-theme-package = pkgs.gruvbox-plus-icons;
-  icon-theme-name    = "Gruvbox-Plus-Light";
-  gtksettings        = ''
-    [Settings]
-    gtk-icon-theme-name = ${icon-theme-name}
-    gtk-theme-name = ${theme-name}
-  '';
-in
 {
   boot.loader.systemd-boot.enable      = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -94,6 +77,8 @@ in
   fonts.packages = with pkgs; [
     iosevka
   ];
+  fonts.fontconfig.defaultFonts.monospace = [ "Iosevka" ];
+  fonts.fontconfig.defaultFonts.sansSerif = [ "Iosevka" ];
 
   swapDevices = [{
     device   = "/var/lib/swapfile";
@@ -102,26 +87,7 @@ in
   }];
   zramSwap.enable = true;
 
-  environment.etc = {
-    "xdg/gtk-3.0/settings.ini".text = gtksettings;
-    "xdg/gtk-4.0/settings.ini".text = gtksettings;
-  };
-  environment.variables.GTK_THEME    = theme-name;
   environment.variables.QT_QPA_PLATFORMTHEME = lib.mkForce "gtk2";
-
-  programs.dconf = {
-    enable = lib.mkDefault true;
-    profiles.user.databases = [{
-      lockAll  = false;
-      settings = {
-        "org/gnome/desktop/interface" = {
-          gtk-theme    = theme-name;
-          icon-theme   = icon-theme-name;
-          color-scheme = "prefer-light";
-        };
-      };
-    }];
-  };
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL                     = "1";
@@ -133,8 +99,6 @@ in
   };
 
   environment.systemPackages = with pkgs; [
-    theme-package
-    icon-theme-package
     adwaita-qt
     nautilus
     adwaita-icon-theme
@@ -146,6 +110,7 @@ in
     swaybg
     wl-clipboard
     wiremix
+    fuzzel
     wireplumber
     pulseaudio
     imagemagick
@@ -261,10 +226,6 @@ in
           }
       }
 
-      animations {
-          slowdown 0.5
-      }
-
       prefer-no-csd
 
       window-rule {
@@ -342,47 +303,6 @@ in
       }
     '';
 
-    programs.hyprlock = {
-      enable   = true;
-      settings = {
-        general = {
-          hide_cursor        = false;
-          ignore_empty_input = true;
-        };
-        background = [{
-          path        = "screenshot";
-          blur_passes = 3;
-          blur_size   = 8;
-          brightness  = 0.8;
-          contrast    = 0.9;
-        }];
-        input-field = [{
-          size              = "250, 55";
-          position          = "0, -80";
-          monitor           = "";
-          dots_center       = true;
-          fade_on_empty     = false;
-          outline_thickness = 3;
-          outer_color       = "rgb(458588)";
-          inner_color       = "rgb(FDF6E3)";
-          font_color        = "rgb(000000)";
-          placeholder_text  = "<i>Password...</i>";
-          shadow_passes     = 2;
-          halign            = "center";
-          valign            = "center";
-        }];
-        label = [{
-          text        = "$TIME";
-          color       = "rgba(000000ff)";
-          font_size   = 52;
-          font_family = "Iosevka";
-          position    = "0, 80";
-          halign      = "center";
-          valign      = "center";
-        }];
-      };
-    };
-
     programs.bash = {
       enable    = true;
       initExtra = ''
@@ -401,121 +321,55 @@ in
       enableBashIntegration = true;
     };
 
-    programs.helix = {
-      enable        = true;
-      defaultEditor = true;
-
-      settings = {
-        theme  = "solarized_light";
-        editor = {
-          line-number        = "relative";
-          mouse              = true;
-          clipboard-provider = "wayland";
-          cursor-shape = {
-            normal = "block";
-            insert = "bar";
-            select = "underline";
-          };
-          lsp = {
-            display-messages     = true;
-            display-inlay-hints  = true;
-          };
-        };
-        keys = {
-          normal = {
-            "C-c" = "yank_main_selection_to_clipboard";
-            "C-v" = "paste_clipboard_after";
-          };
-          select = {
-            "C-c" = "yank_main_selection_to_clipboard";
-          };
-          insert = {
-            "C-v" = "paste_clipboard_after";
-          };
-        };
-      };
-
-      extraPackages = [
-        pkgs.nixd
-        pkgs.nixfmt
-      ];
-
-      languages = {
-        language = [{
-          name         = "nix";
-          auto-format  = true;
-          formatter    = { command = "${pkgs.nixfmt}/bin/nixfmt"; };
-          language-servers = [ "nixd" ];
-        }];
-        language-server = {
-          nixd = { command = "${pkgs.nixd}/bin/nixd"; };
-        };
-      };
-    };
-
     programs.alacritty = {
-      enable   = true;
+      enable = true;
       settings = {
-        font = {
-          size   = 18;
-          normal      = { family = "Iosevka"; style = "Regular"; };
-          bold        = { family = "Iosevka"; style = "Bold"; };
-          italic      = { family = "Iosevka"; style = "Italic"; };
-          bold_italic = { family = "Iosevka"; style = "Bold Italic"; };
-        };
+        font.normal = { family = "Iosevka"; style = "Regular"; };
+        font.size   = 18;
         window.padding = { x = 10; y = 10; };
-        cursor.style.shape = "Block";
-        colors = {
-          primary   = { background = "#FDF6E3"; foreground = "#000000"; };
-          selection = { text = "#000000"; background = "#D9D3C3"; };
-          cursor    = { cursor = "#458588"; };
-          normal = {
-            black   = "#FDF6E3";
-            red     = "#CC3333";
-            green   = "#458588";
-            yellow  = "#9A7D0A";
-            blue    = "#458588";
-            magenta = "#e089a1";
-            cyan    = "#2E8B84";
-            white   = "#000000";
-          };
-          bright = {
-            black   = "#999999";
-            red     = "#CC3333";
-            green   = "#458588";
-            yellow  = "#9A7D0A";
-            blue    = "#458588";
-            magenta = "#e089a1";
-            cyan    = "#2E8B84";
-            white   = "#000000";
-          };
+        colors.primary = {
+          background = "#FDF6E3";
+          foreground = "#000000";
         };
       };
     };
 
     programs.fuzzel = {
-      enable   = true;
-      settings = {
-        colors = {
-          background     = "FDF6E3ff";
-          text           = "000000ff";
-          match          = "458588ff";
-          selection      = "D9D3C3ff";
-          selection-text = "000000ff";
-          border         = "458588ff";
-        };
-        main = {
-          font     = lib.mkForce "Iosevka:size=18";
-          lines    = 12;
-          width    = 45;
-          terminal = "alacritty";
-        };
-        border = {
-          width  = 2;
-          radius = 6;
-        };
-      };
+      enable = true;
+      settings.colors.background = "FDF6E3ff";
+      settings.colors.text       = "000000ff";
+      settings.colors.border     = "458588ff";
+      settings.main.font         = "Iosevka:size=18";
+      settings.main.lines        = 12;
+      settings.main.width        = 45;
+      settings.main.terminal     = "alacritty";
     };
+
+    programs.hyprlock = {
+      enable = true;
+      settings.background = [{ path = "screenshot"; blur_passes = 3; }];
+      settings.input-field = [{
+        outer_color = "rgb(458588)";
+        inner_color = "rgb(FDF6E3)";
+        font_color  = "rgb(000000)";
+      }];
+    };
+
+programs.helix = {
+  enable        = true;
+  defaultEditor = true;
+  settings.editor.line-number        = "relative";
+  settings.editor.clipboard-provider = "wayland";
+  extraPackages = [ pkgs.nixd ];
+};
+
+
+    home.file.".config/yazi/theme.toml".text = ''
+      [mgr]
+      hovered = { fg = "#FDF6E3", bg = "#458588" }
+      [status]
+      mode_normal = { fg = "#FDF6E3", bg = "#458588", bold = true }
+    '';
 
     home.file.".config/yazi/yazi.toml".text = ''
       [mgr]
@@ -538,44 +392,7 @@ in
         { mime = "application/pdf", use = "pdf" },
         { mime = "text/html",       use = "browser" },
         { mime = "application/xhtml+xml", use = "browser" },
-      ]
-    '';
-
-    home.file.".config/yazi/theme.toml".text = ''
-      [mgr]
-      cwd             = { fg = "#458588", bold = true }
-      hovered         = { fg = "#FDF6E3", bg = "#458588" }
-      find_keyword    = { fg = "#458588", bold = true }
-      find_position   = { fg = "#C67F3A", bg = "reset", bold = true }
-      marker_copied   = { fg = "#458588", bg = "#458588" }
-      marker_cut      = { fg = "#CC3333", bg = "#CC3333" }
-      marker_selected = { fg = "#458588", bg = "#458588" }
-      count_copied    = { fg = "#FDF6E3", bg = "#458588" }
-      count_cut       = { fg = "#FDF6E3", bg = "#CC3333" }
-      count_selected  = { fg = "#FDF6E3", bg = "#458588" }
-
-      [tabs]
-      active   = { fg = "#FDF6E3", bg = "#458588", bold = true }
-      inactive = { fg = "#8B7355", bg = "#D9D3C3" }
-
-      [status]
-      mode_normal = { fg = "#FDF6E3", bg = "#458588", bold = true }
-      mode_select = { fg = "#FDF6E3", bg = "#458588", bold = true }
-      mode_unset  = { fg = "#FDF6E3", bg = "#458588", bold = true }
-
-      [filetype]
-      rules = [
-        { mime = "image/*",         fg = "#458588" },
-        { mime = "video/*",         fg = "#C67F3A" },
-        { mime = "audio/*",         fg = "#458588" },
-        { mime = "text/*",          fg = "#000000" },
-        { mime = "inode/directory", fg = "#C67F3A", bold = true },
-        { mime = "*.nix",           fg = "#458588" },
-        { mime = "*.sh",            fg = "#458588" },
-        { mime = "*.md",            fg = "#000000" },
-        { mime = "*.toml",          fg = "#C67F3A" },
-        { mime = "*.json",          fg = "#9A7D0A" },
-      ]
+       ]
     '';
   };
 
