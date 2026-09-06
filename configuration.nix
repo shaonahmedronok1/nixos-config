@@ -92,6 +92,9 @@
     qt5.qtwayland
     qt6.qtwayland
     swaybg
+    hyprlock
+    fuzzel
+    eza
     wl-clipboard
     wiremix
     wireplumber
@@ -240,16 +243,6 @@
           Mod+Shift+Down   { move-window-down-or-to-workspace-down; }
           Mod+Shift+Up     { move-window-up-or-to-workspace-up; }
           Mod+Shift+Right  { move-column-right; }
-          Mod+Shift+period { move-column-to-monitor-right; }
-          Mod+Shift+comma  { move-column-to-monitor-left; }
-          Mod+1 { focus-workspace 1; }
-          Mod+2 { focus-workspace 2; }
-          Mod+3 { focus-workspace 3; }
-          Mod+4 { focus-workspace 4; }
-          Mod+Shift+1 { move-window-to-workspace 1; }
-          Mod+Shift+2 { move-window-to-workspace 2; }
-          Mod+Shift+3 { move-window-to-workspace 3; }
-          Mod+Shift+4 { move-window-to-workspace 4; }
           XF86AudioMute        { spawn "sh" "-c" "pactl set-sink-mute @DEFAULT_SINK@ toggle"; }
           XF86AudioLowerVolume { spawn "sh" "-c" "pactl set-sink-volume @DEFAULT_SINK@ -2%"; }
           XF86AudioRaiseVolume { spawn "sh" "-c" "pactl set-sink-volume @DEFAULT_SINK@ +2%"; }
@@ -257,20 +250,7 @@
           Mod+Shift+E { quit; }
       }
     '';
-    programs.bash = {
-      enable    = true;
-      initExtra = ''
-        set -o vi
-        PS1='\[\e[38;2;0;0;0m\]\w \[\e[0m\]❯ '
-      '';
-      shellAliases = {
-        ls  = "eza -l -a -h";
-        ll  = "eza -l -a -h";
-        vim = "hx";
-      };
-    };
-    programs.eza.enable = true;
-    programs.alacritty = {
+programs.alacritty = {
       enable = true;
       settings = {
         font.normal = { family = "Iosevka"; style = "Regular"; };
@@ -282,25 +262,6 @@
         };
       };
     };
-    programs.fuzzel = {
-      enable = true;
-      settings.colors.background = "FDF6E3ff";
-      settings.colors.text       = "000000ff";
-      settings.colors.border     = "458588ff";
-      settings.main.font         = "Iosevka:size=18";
-      settings.main.lines        = 12;
-      settings.main.width        = 45;
-      settings.main.terminal     = "alacritty";
-    };
-    programs.hyprlock = {
-      enable = true;
-      settings.background = [{ path = "screenshot"; blur_passes = 3; }];
-      settings.input-field = [{
-        outer_color = "rgb(458588)";
-        inner_color = "rgb(FDF6E3)";
-        font_color  = "rgb(000000)";
-      }];
-    };
     programs.helix = {
       enable        = true;
       defaultEditor = true;
@@ -309,12 +270,6 @@
       settings.theme = "papercolor-light";
       extraPackages = [ pkgs.nixd ];
     };
-    home.file.".config/yazi/theme.toml".text = ''
-      [mgr]
-      hovered = { fg = "#FDF6E3", bg = "#458588" }
-      [status]
-      mode_normal = { fg = "#FDF6E3", bg = "#458588", bold = true }
-    '';
     home.file.".config/yazi/yazi.toml".text = ''
       [mgr]
       show_hidden = true
