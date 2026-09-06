@@ -4,32 +4,26 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages                  = pkgs.linuxPackages_latest;
   boot.kernelModules                   = [ "i2c-dev" ];
-
   networking.hostName              = "shaonix";
   networking.networkmanager.enable = true;
   networking.firewall.enable       = true;
-
   time.timeZone      = "Asia/Dhaka";
   i18n.defaultLocale = "en_US.UTF-8";
-
   users.users.shaonix = {
     isNormalUser = true;
     description  = "shaonix";
     extraGroups  = [ "networkmanager" "wheel" "video" "input" "storage" "i2c" ];
     shell        = pkgs.bash;
   };
-
   security.pam.services.hyprlock = {};
   security.polkit.enable         = true;
   security.rtkit.enable          = true;
-
   hardware.graphics = {
     enable        = true;
     extraPackages = [ pkgs.intel-media-driver ];
   };
   hardware.cpu.intel.updateMicrocode = true;
   hardware.i2c.enable                = true;
-
   services.pipewire = {
     enable             = true;
     alsa.enable        = true;
@@ -42,10 +36,8 @@
       actions  = { update-props = { "priority.session" = 2000; }; };
     }];
   };
-
   programs.niri.enable     = true;
   programs.xwayland.enable = true;
-
   xdg.portal = {
     enable        = true;
     extraPortals = [
@@ -59,7 +51,6 @@
       "org.freedesktop.impl.portal.Screenshot"  = [ "gnome" ];
     };
   };
-
   services.greetd = {
     enable   = true;
     settings = {
@@ -69,7 +60,6 @@
       };
     };
   };
-
   services.gvfs.enable                = true;
   services.gnome.gnome-keyring.enable = true;
   services.udisks2.enable             = true;
@@ -86,9 +76,7 @@
     priority = 0;            # lower than zram (priority 5) — overflow only
   }];
   zramSwap.enable = true;
-
   environment.variables.QT_QPA_PLATFORMTHEME = lib.mkForce "gtk2";
-
   environment.sessionVariables = {
     NIXOS_OZONE_WL                     = "1";
     XDG_CURRENT_DESKTOP                = "niri:GNOME";
@@ -97,7 +85,6 @@
     QT_QPA_PLATFORM                    = "wayland;xcb";
     QT_WAYLAND_DISABLE_WINDOWDECORATION  = "1";
   };
-
   environment.systemPackages = with pkgs; [
     adwaita-qt
     nautilus
@@ -110,15 +97,12 @@
     swaybg
     wl-clipboard
     wiremix
-    fuzzel
     wireplumber
     pulseaudio
-    imagemagick
     slurp
     grim
     wlsunset
     ddcutil
-    polkit_gnome
     networkmanagerapplet
     nh
     udiskie
@@ -128,7 +112,6 @@
     zathura
     yazi
   ];
-
   home-manager.users.shaonix = {
     home.stateVersion = "26.05";
     programs.home-manager.enable = true;
@@ -136,7 +119,6 @@
     systemd.user.sessionVariables = {
       GDK_BACKEND                        = "wayland,x11";
     };
-
     gtk = {
       enable    = true;
       iconTheme = {
@@ -144,13 +126,11 @@
         package = pkgs.gruvbox-plus-icons;
       };
     };
-
     qt = {
       enable             = true;
       platformTheme.name = lib.mkForce "gtk";
       style.name         = lib.mkForce "adwaita";
     };
-
     xdg.desktopEntries.helix = {
       name        = "Helix";
       genericName = "Text Editor";
@@ -162,7 +142,6 @@
         "application/json" "text/x-shellscript" "text/x-org"
       ];
     };
-
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {
@@ -177,7 +156,6 @@
         "application/pdf"                    = [ "zathura.desktop" ];
       };
     };
-
     xdg.configFile."niri/config.kdl".text = ''
       input {
           keyboard {
@@ -189,16 +167,13 @@
           }
           focus-follows-mouse
       }
-
       cursor {
           xcursor-theme "Adwaita"
           xcursor-size 24
       }
-
       output "HDMI-A-2" {
           mode "1280x1024@75"
       }
-
       layout {
           gaps 6
           center-focused-column "never"
@@ -225,9 +200,7 @@
               inactive-color "#D9D3C3"
           }
       }
-
       prefer-no-csd
-
       window-rule {
           geometry-corner-radius 8
           clip-to-geometry true
@@ -256,12 +229,10 @@
           match app-id="imv"
           open-floating true
       }
-
       spawn-at-startup "udiskie" "-t"
       spawn-at-startup "swaybg" "-i" "/etc/nixos/wallpaper.jpg" "-m" "fill"
       spawn-at-startup "wlsunset" "-t" "4500" "-T" "4500"
       spawn-at-startup "xwayland-satellite"
-
       binds {
           Mod+Return { spawn "alacritty"; }
           Mod+Space  { spawn "fuzzel"; }
@@ -315,11 +286,7 @@
         vim = "hx";
       };
     };
-
-    programs.eza = {
-      enable                = true;
-      enableBashIntegration = true;
-    };
+    programs.eza.enable = true;
 
     programs.alacritty = {
       enable = true;
@@ -355,14 +322,13 @@
       }];
     };
 
-programs.helix = {
-  enable        = true;
-  defaultEditor = true;
-  settings.editor.line-number        = "relative";
-  settings.editor.clipboard-provider = "wayland";
-  extraPackages = [ pkgs.nixd ];
-};
-
+    programs.helix = {
+    enable        = true;
+    defaultEditor = true;
+    settings.editor.line-number        = "relative";
+    settings.editor.clipboard-provider = "wayland";
+    extraPackages = [ pkgs.nixd ];
+   };
 
     home.file.".config/yazi/theme.toml".text = ''
       [mgr]
@@ -370,11 +336,9 @@ programs.helix = {
       [status]
       mode_normal = { fg = "#FDF6E3", bg = "#458588", bold = true }
     '';
-
     home.file.".config/yazi/yazi.toml".text = ''
       [mgr]
       show_hidden = true
-
       [opener]
       edit     = [{ run = 'alacritty -e hx "$@"', orphan = true }]
       image    = [{ run = 'imv "$@"', orphan = true, for = "unix" }]
@@ -382,7 +346,6 @@ programs.helix = {
       audio    = [{ run = 'mpv --force-window --no-resume-playback "$@"', orphan = true }]
       pdf      = [{ run = 'zathura "$@"', orphan = true, for = "unix" }]
       browser  = [{ run = 'firefox "$@"', orphan = true, for = "unix" }]
-
       [open]
       rules = [
         { mime = "image/*",         use = "image" },
@@ -392,7 +355,7 @@ programs.helix = {
         { mime = "application/pdf", use = "pdf" },
         { mime = "text/html",       use = "browser" },
         { mime = "application/xhtml+xml", use = "browser" },
-       ]
+      ]
     '';
   };
 
