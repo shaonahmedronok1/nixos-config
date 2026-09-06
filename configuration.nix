@@ -273,7 +273,6 @@
           Mod+Shift+E { quit; }
       }
     '';
-
     programs.bash = {
       enable    = true;
       initExtra = ''
@@ -287,7 +286,6 @@
       };
     };
     programs.eza.enable = true;
-
     programs.alacritty = {
       enable = true;
       settings = {
@@ -300,7 +298,6 @@
         };
       };
     };
-
     programs.fuzzel = {
       enable = true;
       settings.colors.background = "FDF6E3ff";
@@ -311,7 +308,6 @@
       settings.main.width        = 45;
       settings.main.terminal     = "alacritty";
     };
-
     programs.hyprlock = {
       enable = true;
       settings.background = [{ path = "screenshot"; blur_passes = 3; }];
@@ -321,15 +317,13 @@
         font_color  = "rgb(000000)";
       }];
     };
-
     programs.helix = {
-    enable        = true;
-    defaultEditor = true;
-    settings.editor.line-number        = "relative";
-    settings.editor.clipboard-provider = "wayland";
-    extraPackages = [ pkgs.nixd ];
-   };
-
+      enable        = true;
+      defaultEditor = true;
+      settings.editor.line-number        = "relative";
+      settings.editor.clipboard-provider = "wayland";
+      extraPackages = [ pkgs.nixd ];
+    };
     home.file.".config/yazi/theme.toml".text = ''
       [mgr]
       hovered = { fg = "#FDF6E3", bg = "#458588" }
@@ -358,7 +352,6 @@
       ]
     '';
   };
-
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree          = true;
   system.stateVersion = "26.05";
