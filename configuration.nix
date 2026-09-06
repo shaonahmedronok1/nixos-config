@@ -85,9 +85,7 @@
     QT_WAYLAND_DISABLE_WINDOWDECORATION  = "1";
   };
   environment.systemPackages = with pkgs; [
-    adwaita-qt
     nautilus
-    adwaita-icon-theme
     git
     firefox
     xwayland-satellite
@@ -116,18 +114,6 @@
     programs.home-manager.enable = true;
     systemd.user.sessionVariables = {
       GDK_BACKEND                        = "wayland,x11";
-    };
-    gtk = {
-      enable    = true;
-      iconTheme = {
-        name    = "Gruvbox-Plus-Light";
-        package = pkgs.gruvbox-plus-icons;
-      };
-    };
-    qt = {
-      enable             = true;
-      platformTheme.name = lib.mkForce "gtk";
-      style.name         = lib.mkForce "adwaita";
     };
     xdg.desktopEntries.helix = {
       name        = "Helix";
@@ -275,7 +261,7 @@
       enable    = true;
       initExtra = ''
         set -o vi
-        PS1='\[\e[38;2;224;137;161m\]\w \[\e[0m\]❯ '
+        PS1='\[\e[38;2;0;0;0m\]\w \[\e[0m\]❯ '
       '';
       shellAliases = {
         ls  = "eza -l -a -h";
@@ -320,6 +306,7 @@
       defaultEditor = true;
       settings.editor.line-number        = "relative";
       settings.editor.clipboard-provider = "wayland";
+      settings.theme = "papercolor-light";
       extraPackages = [ pkgs.nixd ];
     };
     home.file.".config/yazi/theme.toml".text = ''
